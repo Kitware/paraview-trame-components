@@ -124,7 +124,10 @@ version_variables = [
 version_toml = [
     "pyproject.toml:project.version",
 ]
-build_command = "hatch build ."
+build_command = """
+    python -m pip install build~=0.10.0
+    python -m build .
+"""
 
 [tool.semantic_release.branches.main]
 match = "(release)"
@@ -145,5 +148,5 @@ default_bump_level = 0
 env = "GH_TOKEN"
 
 [semantic_release.publish]
-dist_glob_patterns = ["paraview_trame_components-*"]
+dist_glob_patterns = ["dist/*"]
 upload_to_vcs_release = true

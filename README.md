@@ -41,3 +41,7 @@ Each script add `import paraview.web.venv` at the top to enable your virtual env
 Then we use the ptc (ParaView Trame Components) package to quickly create a trame application to view the data.
 
 The `wavelet-contour-state.py` script was created by ParaView when saving its state as a Python file. Then we added few lines at the end to create an interactive web viewer.
+
+## Check code
+
+`pre-commit run --all-files`

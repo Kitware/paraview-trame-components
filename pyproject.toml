@@ -1,0 +1,82 @@
+[project]
+name = "paraview-trame-components"
+version = "0.0.1"
+requires-python = ">= 3.10"
+dependencies = [
+  "trame",
+  "trame-vtk",
+  "trame-vuetify",
+]
+
+authors = [
+  {name = "Sebastien Jourdain", email = "sebastien.jourdain@kitware.com"},
+]
+maintainers = [
+  {name = "Sebastien Jourdain", email = "sebastien.jourdain@kitware.com"},
+]
+description = "Macro components for ParaView"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["paraview", "web", "trame", "components"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+]
+
+[project.optional-dependencies]
+dev = [
+  "ruff",
+  "python-semantic-release",
+  "pre-commit",
+  "codespell",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "*.py",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["ptc"]
+
+[tool.ruff]
+lint.select = [
+  "E",   # pycodestyle
+  "F",   # pyflakes
+  "UP",  # pyupgrade,
+  "I",   # isort
+]
+include = ["pyproject.toml", "ptc/**/*.py", "examples/**/*.py"]
+line-length = 100
+indent-width = 4
+target-version = "py310"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+"examples/wavelet*.py" = ["F403", "F405"]
+"examples/*.py" = ["I001", "F401", "E402"]
+
+[tool.semantic_release.remote.token]
+env = "GH_TOKEN"
+
+[tool.semantic_release.branches.main]
+match = "(release)"
+prerelease = false
+
+[tool.codespell]
+skip = "**/package-lock.json,PKG-INFO,**/dist/**,CHANGELOG.md"
+
+
+[project.scripts]

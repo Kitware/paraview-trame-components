@@ -16,7 +16,7 @@ python3.10 -m venv .venv
 source .venv/bin/activate
 
 # Install published package
-pip install ptc
+pip install paraview-trame-components
 
 # Let ParaView know about the location of that venv
 export PV_VENV=$PWD/.venv
@@ -25,7 +25,7 @@ export PV_VENV=$PWD/.venv
 ## Running examples
 
 ```bash
-# Adjust path to point to your executable
+# Adjust path to point to your ParaView executable
 export PVPYTHON=/Applications/ParaView-5.12.0.app/Contents/bin/pvpython
 
 # Run the scripts

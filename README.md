@@ -102,6 +102,6 @@ web_app.start()
 
 ## Example in image
 
-| ![Code](.web-app-input.png) | ![Web App](.web-app-output.png) |
+| ![Code](https://raw.githubusercontent.com/Kitware/paraview-trame-components/main/.web-app-input.png) | ![Web App](https://raw.githubusercontent.com/Kitware/paraview-trame-components/main/.web-app-output.png) |
 | :-------------------------: |  :----------------------------: | 
 | Write some python code      |  And get a web app              | 

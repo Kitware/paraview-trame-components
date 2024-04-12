@@ -77,6 +77,10 @@ line-ending = "auto"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
+  # ok
+  "C408",
+
+  # need cleanup
   "ARG001",
   "ANN001",
   "ANN002",

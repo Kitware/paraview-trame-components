@@ -13,7 +13,7 @@ from trame.widgets.vuetify3 import VSlider
 
 web_app = Viewer()
 # add-on UI
-with web_app.top:
+with web_app.side_top:
     VSlider(
         v_model=("resolution", 6),
         min=3,

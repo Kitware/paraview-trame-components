@@ -12,7 +12,7 @@ contour1 = simple.FindSource("Contour1")
 web_app = Viewer(from_state=True)
 
 # add-on UI
-with web_app.top:
+with web_app.side_top:
     VSlider(
         v_model=("value", contour1.Isosurfaces[0]),
         min=37,

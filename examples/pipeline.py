@@ -12,7 +12,7 @@ simple.LoadState(
 )
 web_app = Viewer(from_state=True)
 
-with web_app.left:
+with web_app.col_left:
     PipelineBrowser(
         style="background: rgba(255, 255, 255, 0.5);",
         classes="elevation-5 rounded-lg",

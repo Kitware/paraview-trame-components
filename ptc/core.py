@@ -2,13 +2,20 @@ from paraview import simple
 from trame.app import get_server
 from trame.decorators import TrameApp, controller
 from trame.ui.vuetify3 import VAppLayout
-from trame.widgets import html
 from trame.widgets import paraview as pv_widgets
+
+from .layouts import create_layout_manager
+
+
+class InvalidContainerNameError(Exception):
+    def __init__(self, name):
+        super().__init__(f"Container {name} not available")
 
 
 @TrameApp()
 class Viewer:
     def __init__(self, view=None, from_state=False, server=None, template_name="main"):
+        self.layout_factory = create_layout_manager(self)
         self.template_name = template_name
         self.server = get_server(server)
         self.view = view
@@ -49,30 +56,12 @@ class Viewer:
     def reset_camera(self):
         self.ctrl.view_reset_camera()
 
-    @property
-    def left(self):
-        with self.ui:
-            return html.Div(
-                style="position: absolute; top: 1rem; bottom: 1rem; left: 1rem; z-index: 1;"
-            )
+    def __getattr__(self, key):
+        """Lookup a layout specific container."""
+        manager = self.layout_factory.get_manager(key)
 
-    @property
-    def right(self):
-        with self.ui:
-            return html.Div(
-                style="position: absolute; top: 1rem; bottom: 1rem; right: 1rem; z-index: 1;"
-            )
+        if manager is None:
+            raise InvalidContainerNameError(key)
 
-    @property
-    def bottom(self):
         with self.ui:
-            return html.Div(
-                style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; z-index: 1;"
-            )
-
-    @property
-    def top(self):
-        with self.ui:
-            return html.Div(
-                style="position: absolute; top: 1rem; left: 1rem; right: 1rem; z-index: 1;"
-            )
+            return manager.create_container(key)

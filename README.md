@@ -86,7 +86,7 @@ simple.Render()
 # Make it a web app
 web_app = Viewer()
 
-with web_app.top:
+with web_app.side_top:
     VSlider(
         v_model=("resolution", 6),
         min=3, max=60, step=1,

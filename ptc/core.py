@@ -32,7 +32,9 @@ class Viewer:
         self.server.start(*args, **kwargs)
 
     def _build_ui(self):
-        with VAppLayout(self.server, template_name=self.template_name, full_height=True) as layout:
+        with VAppLayout(
+            self.server, template_name=self.template_name, full_height=True
+        ) as layout:
             self.ui = layout
             view = pv_widgets.VtkRemoteView(self.view, interactive_ratio=1)
             self.ctrl.view_update = view.update

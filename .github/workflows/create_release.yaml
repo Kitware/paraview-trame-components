@@ -12,7 +12,10 @@ jobs:
   
       steps:
       - uses: actions/checkout@v3
-      
+        with:
+          fetch-depth: 0
+          ref: main
+
       - name: Configure git user
         run: |
           git config user.email "actions@github.com"
@@ -20,7 +23,7 @@ jobs:
 
       - name: Sync git branches
         run: |
-          git fetch --all
+          git fetch
           git checkout main
           git pull
           git checkout release

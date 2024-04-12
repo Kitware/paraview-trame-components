@@ -40,6 +40,9 @@ ci = [
   "pre-commit",
   "codespell",
 ]
+build = [
+  "build",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -132,7 +135,7 @@ version_toml = [
     "pyproject.toml:project.version",
 ]
 build_command = """
-  python -m pip install ".[ci]"
+  python -m pip install ".[build]"
   python -m build .
 """
 

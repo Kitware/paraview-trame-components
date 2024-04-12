@@ -2,6 +2,41 @@
 
 
 
+## v0.3.0 (2024-04-12)
+
+### Ci
+
+* ci: main to release ([`50eba86`](https://github.com/Kitware/paraview-trame-components/commit/50eba865f2441511e30222250c74c6b14835a220))
+
+* ci: main to release ([`6861ee1`](https://github.com/Kitware/paraview-trame-components/commit/6861ee170b049f0dff3f78c02b8a8647e02969ee))
+
+* ci: main to release ([`a8d1c23`](https://github.com/Kitware/paraview-trame-components/commit/a8d1c23c6c766367907a2af4a40e39f705bef7af))
+
+* ci: main to release ([`e3147e2`](https://github.com/Kitware/paraview-trame-components/commit/e3147e2582c12b621784b43555bbfe539ad8b8e4))
+
+* ci: main to release ([`559ed90`](https://github.com/Kitware/paraview-trame-components/commit/559ed9064ce7e9624b86415c011ef2638ec6e50a))
+
+* ci: try to fix main&gt;release step ([`56ce518`](https://github.com/Kitware/paraview-trame-components/commit/56ce5181d38f58644f00d56b6368a1a92a8eb275))
+
+### Documentation
+
+* docs(readme): update layout name ([`f5e5619`](https://github.com/Kitware/paraview-trame-components/commit/f5e5619143fca640a93967e78141d280ce0f0456))
+
+* docs(readme): use absolute link ([`f6ef471`](https://github.com/Kitware/paraview-trame-components/commit/f6ef471aace6e161ecf045abb8b871fb275713d5))
+
+### Feature
+
+* feat(layout): more layout options ([`d83f479`](https://github.com/Kitware/paraview-trame-components/commit/d83f4794a0fc7dae96061dcd36f9c914a457933f))
+
+### Unknown
+
+* Merge main to release ([`2fc0dc7`](https://github.com/Kitware/paraview-trame-components/commit/2fc0dc7d114c90e4468867cdbe86aa7271ad3d1e))
+
+* Merge main to release ([`891de2a`](https://github.com/Kitware/paraview-trame-components/commit/891de2a4b2e787ebe51ddf83ce06403c409e8d1b))
+
+* Merge main to release ([`f110c63`](https://github.com/Kitware/paraview-trame-components/commit/f110c631a51fe87fba80c67c8e550703c7ebcd83))
+
+
 ## v0.2.0 (2024-04-12)
 
 ### Ci

@@ -1,5 +1,8 @@
 name: Create Release
 
+on:
+    workflow_dispatch:
+
 jobs:
     push_to_release:
       runs-on: ubuntu-latest

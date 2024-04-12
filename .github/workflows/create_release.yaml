@@ -20,7 +20,7 @@ jobs:
 
       - name: Sync git branches
         run: |
-          git fetch
+          git fetch --all
           git checkout main
           git pull
           git checkout release

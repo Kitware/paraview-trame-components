@@ -133,6 +133,7 @@ build_command = """
   pip install -U pip
   python -m pip install ".[ci]"
   python -m build .
+  pre-commit install
 """
 
 [tool.semantic_release.branches.main]

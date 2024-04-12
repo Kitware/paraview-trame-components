@@ -1,10 +1,12 @@
 from paraview import simple
 from trame.app import get_server
+from trame.decorators import TrameApp, controller
 from trame.ui.vuetify3 import VAppLayout
 from trame.widgets import html
 from trame.widgets import paraview as pv_widgets
 
 
+@TrameApp()
 class Viewer:
     def __init__(self, view=None, from_state=False, server=None, template_name="main"):
         self.template_name = template_name
@@ -40,6 +42,7 @@ class Viewer:
             self.ctrl.view_update = view.update
             self.ctrl.view_reset_camera = view.reset_camera
 
+    @controller.add("on_data_change")
     def update(self):
         self.ctrl.view_update()
 

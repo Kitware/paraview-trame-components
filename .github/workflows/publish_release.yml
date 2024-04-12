@@ -1,4 +1,4 @@
-name: Semantic Release
+name: Publish Release
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ steps.release.outputs.tag }}
 
-    - name: Merge release back to master
+    - name: Merge release back to main
       run: |
         git config user.email "actions@github.com"
         git config user.name "github-actions"
@@ -64,5 +64,5 @@ jobs:
         git fetch
         git checkout main
         git pull
-        git merge --no-ff release -m "Auto-merge release back to master"
+        git merge --no-ff release -m "Auto-merge release back to main"
         git push

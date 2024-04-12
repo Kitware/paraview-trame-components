@@ -32,6 +32,7 @@ export PVPYTHON=/Applications/ParaView-5.12.0.app/Contents/bin/pvpython
 $PVPYTHON --force-offscreen-rendering ./examples/cone.py
 $PVPYTHON --force-offscreen-rendering ./examples/cone_width_slider.py
 $PVPYTHON --force-offscreen-rendering ./examples/wavelet-contour-state.py
+$PVPYTHON --force-offscreen-rendering ./examples/pipeline.py
 ```
 
 ## Scripts structure
@@ -98,3 +99,9 @@ def on_resolution_change(resolution, **kwargs):
 
 web_app.start()
 ```
+
+## Example in image
+
+| ![Code](.web-app-input.png) | ![Web App](.web-app-output.png) |
+| :-------------------------: |  :----------------------------: | 
+| Write some python code      |  And get a web app              | 

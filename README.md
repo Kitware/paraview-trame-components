@@ -102,5 +102,6 @@ web_app.start()
 
 ## Example in image
 
-![Code](.web-app-input.png)
-![Web App](.web-app-output.png)
+| ![Code](.web-app-input.png) | ![Web App](.web-app-output.png) |
+| :-------------------------: |  :----------------------------: | 
+| Write some python code      |  And get a web app              | 

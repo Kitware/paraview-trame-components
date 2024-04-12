@@ -12,16 +12,29 @@ jobs:
   
       steps:
       - uses: actions/checkout@v3
-  
-      - name: Merge main to release
+      
+      - name: Configure git user
         run: |
           git config user.email "actions@github.com"
           git config user.name "github-actions"
-  
+
+      - name: Sync git branches
+        run: |
           git fetch
           git checkout main
           git pull
           git checkout release
           git pull
+
+      - name: History main
+        run: |
+          git log main
+
+      - name: History release
+        run: |
+              git log release
+
+      - name: Merge main to release
+        run: |
           git merge --no-ff main -m "Merge main to release"
           git push

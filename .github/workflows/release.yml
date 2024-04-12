@@ -58,7 +58,6 @@ jobs:
 
     - name: Merge release back to master
       run: |
-        git fetch --unshallow
         git checkout master
         git pull
         git merge --no-ff release -m "Auto-merge release back to master"

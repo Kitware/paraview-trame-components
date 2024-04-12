@@ -131,7 +131,10 @@ version_variables = [
 version_toml = [
     "pyproject.toml:project.version",
 ]
-build_command = "python -m build ."
+build_command = """
+  python -m pip install ".[ci]"
+  python -m build .
+"""
 
 [tool.semantic_release.branches.main]
 match = "(release)"

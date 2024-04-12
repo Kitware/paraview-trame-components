@@ -2,6 +2,43 @@
 
 
 
+## v0.2.0 (2024-04-12)
+
+### Ci
+
+* ci: try to define a manual workflow ([`ede42ed`](https://github.com/Kitware/paraview-trame-components/commit/ede42ed2e6dc762f06cc86cf2333672a5da5ec7c))
+
+* ci: help release automation ([`b1914d7`](https://github.com/Kitware/paraview-trame-components/commit/b1914d74f645b1ba65ecf885409e2c4add6e8930))
+
+* ci: assign user for commit ([`b43970f`](https://github.com/Kitware/paraview-trame-components/commit/b43970f69d7731553f248ba2dbf5c5940b508dbb))
+
+* ci: use main instead of master ([`ab802c0`](https://github.com/Kitware/paraview-trame-components/commit/ab802c0753785ad0ff3fd809feeb62f1c29b5459))
+
+* ci: try understand git issue ([`3f19510`](https://github.com/Kitware/paraview-trame-components/commit/3f19510ac25086a12a23daf5af5101b49a86f3e1))
+
+* ci: merge release back to master ([`ba148da`](https://github.com/Kitware/paraview-trame-components/commit/ba148da2b4207fbf77d9da60ec4766c3437bdb0d))
+
+* ci: merge release back to master ([`40c1fe2`](https://github.com/Kitware/paraview-trame-components/commit/40c1fe29a8d0f23fca7b0f2d887d6518f80c0d3c))
+
+### Documentation
+
+* docs(readme): update to show pictures ([`7a46171`](https://github.com/Kitware/paraview-trame-components/commit/7a4617127737e7760e8b221c9a5b1bf293ae3010))
+
+### Feature
+
+* feat(pipeline): add pipeline browser ([`3885b10`](https://github.com/Kitware/paraview-trame-components/commit/3885b10e29b8dca7d11bce67019fa7a710005d81))
+
+### Unknown
+
+* Merge main to release ([`49d3a00`](https://github.com/Kitware/paraview-trame-components/commit/49d3a007ddcec35b40b6c126c73ed62c65372a95))
+
+* Merge pull request #1 from Kitware/add-pipeline
+
+feat(pipeline): add pipeline browser ([`3e496b3`](https://github.com/Kitware/paraview-trame-components/commit/3e496b3dbabe56dcafa6e8d284341ed0e7fcc976))
+
+* Auto-merge release back to master ([`5e003e7`](https://github.com/Kitware/paraview-trame-components/commit/5e003e701893c6566499b5aebabd7e72b291997f))
+
+
 ## v0.1.1 (2024-04-12)
 
 ### Ci

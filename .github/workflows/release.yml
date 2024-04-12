@@ -58,6 +58,9 @@ jobs:
 
     - name: Merge release back to master
       run: |
+        git config user.email "actions@github.com"
+        git config user.name "github-actions"
+
         git fetch
         git checkout main
         git pull

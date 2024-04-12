@@ -1,0 +1,22 @@
+name: Create Release
+
+jobs:
+    push_to_release:
+      runs-on: ubuntu-latest
+      permissions:
+        id-token: write
+        contents: write
+  
+      steps:
+      - uses: actions/checkout@v3
+  
+      - name: Merge main to release
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "github-actions"
+  
+          git fetch
+          git checkout release
+          git pull
+          git merge --no-ff main -m "Merge main to release"
+          git push

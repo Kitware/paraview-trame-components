@@ -19,6 +19,8 @@ jobs:
           git config user.name "github-actions"
   
           git fetch
+          git checkout main
+          git pull
           git checkout release
           git pull
           git merge --no-ff main -m "Merge main to release"

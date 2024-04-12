@@ -29,7 +29,7 @@ classifiers = [
 [project.optional-dependencies]
 dev = [
   "ruff",
-  "build~=0.10.0"
+  "build~=0.10.0",
   "python-semantic-release",
   "pre-commit",
   "codespell",

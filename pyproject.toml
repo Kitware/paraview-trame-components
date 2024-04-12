@@ -6,6 +6,7 @@ dependencies = [
   "trame",
   "trame-vtk",
   "trame-vuetify",
+  "trame-components",
 ]
 
 authors = [
@@ -41,6 +42,7 @@ ci = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+
 [tool.hatch.build.targets.sdist]
 include = [
   "*.py",
@@ -48,6 +50,10 @@ include = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["ptc"]
+artifacts = [
+  "ptc/**/*.svg",
+  "ptc/**/*.png",
+]
 
 [project.scripts]
 semantic-release = "semantic_release.cli:main"
@@ -86,9 +92,12 @@ ignore = [
   "D103",
   "D104",
   "D107",
+  "D211",
+  "D212",
   "E501",
   "FBT002",
   "FBT003",
+  "ISC001",
   "N816",
   "SLF001",
 ]

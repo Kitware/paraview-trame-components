@@ -29,7 +29,14 @@ class PipelineBrowser(GitTree):
                 self.on_visibility_change,
                 "[$event.id, $event.visible]",
             ),
-            **kwargs,
+            **{
+                **kwargs,
+                "classes": kwargs.get("classes", "elevation-5 rounded-lg"),
+                "style": kwargs.get(
+                    "style",
+                    "pointer-events: auto; user-select: none; background: rgba(255, 255, 255, 0.5);",
+                ),
+            },
         )
         self._deleted_ids = set()
         self.update()

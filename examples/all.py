@@ -1,9 +1,9 @@
 import paraview.web.venv
 from pathlib import Path
 from paraview import simple
-from ptc import Viewer, PipelineBrowser, ColorBy, PARAVIEW_EXAMPLES
+from ptc import Viewer, PipelineBrowser, ColorBy, TimeControl, PARAVIEW_EXAMPLES
 
-IMAGE_STATE = str(Path(__file__).with_name("diskout-state.png").resolve())
+IMAGE_STATE = str(Path(__file__).with_name("can-state.png").resolve())
 
 simple.LoadState(
     IMAGE_STATE,
@@ -17,5 +17,6 @@ with web_app.col_left:
 
 with web_app.col_center:
     ColorBy()
+    TimeControl()
 
 web_app.start()

@@ -79,7 +79,8 @@ select = ["ALL"]
 ignore = [
   # ok
   "C408",
-
+  "PLR2004",
+  
   # need cleanup
   "ARG001",
   "ANN001",

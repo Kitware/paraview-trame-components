@@ -2,6 +2,21 @@
 
 
 
+## v0.4.0 (2024-04-15)
+
+### Documentation
+
+* docs(readme): fix instructions ([`c3f2b7f`](https://github.com/Kitware/paraview-trame-components/commit/c3f2b7f636c51aeb6e13b14dd69611e4b3df90df))
+
+### Feature
+
+* feat(widgets): add ColorBy and TimeController widgets ([`724203d`](https://github.com/Kitware/paraview-trame-components/commit/724203de43cf7f4369564c9205566f00f3259877))
+
+### Unknown
+
+* Merge main to release ([`7baea92`](https://github.com/Kitware/paraview-trame-components/commit/7baea921896a107bb628b1173e27e617fa71ba6f))
+
+
 ## v0.3.0 (2024-04-12)
 
 ### Ci

@@ -1,7 +1,8 @@
 from paraview import simple
 from trame.app import get_server
-from trame.decorators import TrameApp, controller
+from trame.decorators import TrameApp, change, controller
 from trame.ui.vuetify3 import VAppLayout
+from trame.widgets import html
 from trame.widgets import paraview as pv_widgets
 
 from .layouts import create_layout_manager
@@ -14,17 +15,20 @@ class InvalidContainerNameError(Exception):
 
 @TrameApp()
 class Viewer:
-    def __init__(self, view=None, from_state=False, server=None, template_name="main"):
+    def __init__(self, views=None, from_state=False, server=None, template_name="main"):
         self.layout_factory = create_layout_manager(self)
         self.template_name = template_name
         self.server = get_server(server)
-        self.view = view
+        self.views = views
+        self.html_views = []
+        self.proxy_views = []
         self.ui = None
-        if self.view is None:
-            self.view = simple.GetActiveView()
+        if self.views is None or len(self.views) == 0:
+            self.views = [simple.GetActiveView()]
 
         if from_state:
-            self.view.MakeRenderWindowInteractor(True)
+            for view in self.views:
+                view.MakeRenderWindowInteractor(True)
 
         self._build_ui()
 
@@ -40,14 +44,63 @@ class Viewer:
         self.ui.flush_content()
         self.server.start(*args, **kwargs)
 
+    @change("active_view_id")
+    def _active_view(self, active_view_id, **_):
+        if active_view_id < len(self.proxy_views):
+            simple.SetActiveView(self.proxy_views[active_view_id])
+            if self.server.controller.on_active_view_change.exists():
+                self.server.controller.on_active_view_change()
+
     def _build_ui(self):
+        self.state.active_view_id = 1
         with VAppLayout(
             self.server, template_name=self.template_name, full_height=True
         ) as layout:
             self.ui = layout
-            view = pv_widgets.VtkRemoteView(self.view, interactive_ratio=1)
-            self.ctrl.view_update = view.update
-            self.ctrl.view_reset_camera = view.reset_camera
+            with html.Div(classes="d-flex align-stretch fill-height"):
+                for view in self.views:
+                    if isinstance(view, list | tuple):
+                        with html.Div(
+                            classes="d-flex align-stretch fill-height flex-column flex-grow-1 flex-shrink-1"
+                        ):
+                            for v in view:
+                                view_id = len(self.html_views)
+                                with html.Div(
+                                    classes="flex-grow-1 flex-shrink-1 border-thin",
+                                    style=(
+                                        f"{{ overflow: 'hidden', zIndex: 0, padding: '1px', margin: '1px', outline: active_view_id === {view_id} ? 'solid 1.5px blue' : 'none' }}",
+                                    ),
+                                    click=f"active_view_id = {view_id}",
+                                ):
+                                    view_html = pv_widgets.VtkRemoteView(
+                                        v,
+                                        interactive_ratio=1,
+                                        style="z-index: -1;",
+                                    )
+                                    self.ctrl.view_update.add(view_html.update)
+                                    self.ctrl.view_reset_camera.add(
+                                        view_html.reset_camera
+                                    )
+                                    self.html_views.append(view_html)
+                                    self.proxy_views.append(v)
+                    else:
+                        view_id = len(self.html_views)
+                        with html.Div(
+                            classes="flex-grow-1 flex-shrink-1 border-thin",
+                            style=(
+                                f"{{ overflow: 'hidden', zIndex: 0, padding: '1px', margin: '1px', outline: active_view_id === {view_id} ? 'solid 1.5px blue' : 'none' }}",
+                            ),
+                            click=f"active_view_id = {view_id}",
+                        ):
+                            view_html = pv_widgets.VtkRemoteView(
+                                view,
+                                interactive_ratio=1,
+                                style="z-index: -1;",
+                            )
+                            self.ctrl.view_update.add(view_html.update)
+                            self.ctrl.view_reset_camera.add(view_html.reset_camera)
+                            self.html_views.append(view_html)
+                            self.proxy_views.append(view)
 
     @controller.add("on_data_change")
     def update(self):

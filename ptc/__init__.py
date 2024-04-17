@@ -5,7 +5,7 @@ from .pipeline import PipelineBrowser
 from .utils import PARAVIEW_EXAMPLES, PARAVIEW_ROOT
 from .vcr import TimeControl
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 __all__ = [
     "Viewer",

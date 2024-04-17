@@ -2,6 +2,23 @@
 
 
 
+## v0.5.0 (2024-04-17)
+
+### Feature
+
+* feat(palette): add palette picker ([`c559c26`](https://github.com/Kitware/paraview-trame-components/commit/c559c262db5d51d898a8de8332f9ca23dba004fd))
+
+### Fix
+
+* fix(view): add support for multi-views ([`034dc70`](https://github.com/Kitware/paraview-trame-components/commit/034dc7012c8d5d6a0008a864b52e1a56e211d3c8))
+
+### Unknown
+
+* Merge main to release ([`157421d`](https://github.com/Kitware/paraview-trame-components/commit/157421dfed6b1f8dd2f2ecd74f1385f8e80a1a15))
+
+* Auto-merge release back to main ([`67c9bec`](https://github.com/Kitware/paraview-trame-components/commit/67c9becf06d37781ddc62487d4f083077937db6d))
+
+
 ## v0.4.0 (2024-04-15)
 
 ### Documentation

@@ -1,7 +1,9 @@
 import paraview.web.venv
 from pathlib import Path
 from paraview import simple
-from ptc import Viewer, PipelineBrowser, ColorBy, PARAVIEW_EXAMPLES
+
+from ptc import Viewer, PipelineBrowser, ColorBy, PalettePicker, PARAVIEW_EXAMPLES
+from trame.widgets.vuetify3 import VSpacer
 
 IMAGE_STATE = str(Path(__file__).with_name("diskout-state.png").resolve())
 
@@ -14,6 +16,8 @@ web_app = Viewer(from_state=True)
 
 with web_app.col_left:
     PipelineBrowser()
+    VSpacer()
+    PalettePicker("WhiteBackground")
 
 with web_app.col_center:
     ColorBy()

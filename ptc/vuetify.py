@@ -1,1 +1,1 @@
-from trame.widgets.vuetify3 import *
+from trame.widgets.vuetify3 import *  # noqa: F403

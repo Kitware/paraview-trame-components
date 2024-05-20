@@ -4,6 +4,7 @@ from trame.decorators import TrameApp, change, controller
 from trame.ui.vuetify3 import VAppLayout
 from trame.widgets import html
 from trame.widgets import paraview as pv_widgets
+from trame.widgets import vuetify3 as v3
 
 from .layouts import create_layout_manager
 
@@ -24,7 +25,10 @@ class Viewer:
         self.proxy_views = []
         self.ui = None
         if self.views is None or len(self.views) == 0:
-            self.views = [simple.GetActiveView()]
+            view = simple.GetActiveView()
+            if view is None:
+                view = simple.CreateRenderView()
+            self.views = [view]
 
         if from_state:
             for view in self.views:
@@ -66,7 +70,7 @@ class Viewer:
                             for v in view:
                                 view_id = len(self.html_views)
                                 with html.Div(
-                                    classes="flex-grow-1 flex-shrink-1 border-thin",
+                                    classes="flex-grow-1 flex-shrink-1 border-thin position-relative",
                                     style=(
                                         f"{{ overflow: 'hidden', zIndex: 0, padding: '1px', margin: '1px', outline: active_view_id === {view_id} ? 'solid 1.5px blue' : 'none' }}",
                                     ),
@@ -77,6 +81,15 @@ class Viewer:
                                         interactive_ratio=1,
                                         style="z-index: -1;",
                                     )
+                                    v3.VBtn(
+                                        icon="mdi-crop-free",
+                                        click=view_html.reset_camera,
+                                        classes="position-absolute",
+                                        style="top: 1rem;right: 1rem; z-index: 1;",
+                                        variant="outlined",
+                                        size="small",
+                                    )
+                                    self.ctrl.on_data_loaded.add(view_html.reset_camera)
                                     self.ctrl.view_update.add(view_html.update)
                                     self.ctrl.view_reset_camera.add(
                                         view_html.reset_camera
@@ -86,7 +99,7 @@ class Viewer:
                     else:
                         view_id = len(self.html_views)
                         with html.Div(
-                            classes="flex-grow-1 flex-shrink-1 border-thin",
+                            classes="flex-grow-1 flex-shrink-1 border-thin position-relative",
                             style=(
                                 f"{{ overflow: 'hidden', zIndex: 0, padding: '1px', margin: '1px', outline: active_view_id === {view_id} ? 'solid 1.5px blue' : 'none' }}",
                             ),
@@ -97,8 +110,18 @@ class Viewer:
                                 interactive_ratio=1,
                                 style="z-index: -1;",
                             )
+                            v3.VBtn(
+                                icon="mdi-crop-free",
+                                click=view_html.reset_camera,
+                                classes="position-absolute",
+                                style="top: 1rem;right: 1rem; z-index: 1;",
+                                variant="outlined",
+                                size="small",
+                            )
+
                             self.ctrl.view_update.add(view_html.update)
                             self.ctrl.view_reset_camera.add(view_html.reset_camera)
+                            self.ctrl.on_data_loaded.add(view_html.reset_camera)
                             self.html_views.append(view_html)
                             self.proxy_views.append(view)
 

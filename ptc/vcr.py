@@ -2,7 +2,7 @@ import asyncio
 
 from paraview import simple
 from trame.app import asynchronous
-from trame.decorators import TrameApp, change
+from trame.decorators import TrameApp, change, controller
 from trame.widgets import html, vuetify3
 
 
@@ -102,6 +102,7 @@ class TimeControl(vuetify3.VCard):
         return list(simple.GetTimeKeeper().TimestepValues)
 
     @change("time_index")
+    @controller.add("on_data_loaded")
     def update(self, **_):
         time_values = self.time_values
         self.state.time_nb = len(time_values)
@@ -111,9 +112,12 @@ class TimeControl(vuetify3.VCard):
             self.state.time_index = self.state.time_nb + self.time_index
 
         tk = simple.GetTimeKeeper()
-        self.state.time_value = time_values[self.state.time_index]
-        tk.Time = self.state.time_value
-        self.server.controller.on_data_change()
+        if len(time_values) < 1:
+            self.state.time_value = 0
+        else:
+            self.state.time_value = time_values[self.state.time_index]
+            tk.Time = self.state.time_value
+            self.server.controller.on_data_change()
 
     @property
     def time_index(self):

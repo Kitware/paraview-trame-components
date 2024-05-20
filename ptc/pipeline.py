@@ -41,6 +41,7 @@ class PipelineBrowser(GitTree):
         self._deleted_ids = set()
         self.update()
         self.server.controller.on_active_view_change.add(self.update)
+        self.server.controller.on_data_loaded.add(self.update)
 
     def on_active_change(self, active_ids, **_):
         current_active = simple.GetActiveSource()

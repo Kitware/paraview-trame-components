@@ -2,6 +2,23 @@
 
 
 
+## v0.7.0 (2024-05-20)
+
+### Feature
+
+* feat(file): add open file dialog ([`37896dd`](https://github.com/Kitware/paraview-trame-components/commit/37896ddf8330a636e80dda4d5db8e8908ea79947))
+
+### Fix
+
+* fix: add support for 3.9 ([`f5c2afc`](https://github.com/Kitware/paraview-trame-components/commit/f5c2afcd914cb17c653a325d69f2aa1d0ff375a3))
+
+### Unknown
+
+* Merge main to release ([`8a80ae1`](https://github.com/Kitware/paraview-trame-components/commit/8a80ae157c83c5dad2f7ec905762e5a6d087208c))
+
+* Merge branch &#39;release&#39; ([`0c1bd64`](https://github.com/Kitware/paraview-trame-components/commit/0c1bd64c7340644ae6b8f3e22603c15889d6fcab))
+
+
 ## v0.6.0 (2024-04-23)
 
 ### Feature

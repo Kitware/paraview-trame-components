@@ -2,6 +2,27 @@
 
 
 
+## v0.6.0 (2024-04-23)
+
+### Feature
+
+* feat(vuetify): expose widgets from ptc ([`0eb08e9`](https://github.com/Kitware/paraview-trame-components/commit/0eb08e94a17cedf71b5ee4ac876e62f30887fcb5))
+
+### Fix
+
+* fix(cli): add helper for CLI handling ([`104482f`](https://github.com/Kitware/paraview-trame-components/commit/104482fc0a2ecd10bd0be1d30fca37354f2afe49))
+
+### Style
+
+* style(format): fix formatting ([`8acffa2`](https://github.com/Kitware/paraview-trame-components/commit/8acffa2384df6eaf595e37909517ce108824db16))
+
+### Unknown
+
+* Merge main to release ([`9122787`](https://github.com/Kitware/paraview-trame-components/commit/9122787156f8a95083dab10c9697bcea5f22098c))
+
+* Merge main to release ([`7b0580b`](https://github.com/Kitware/paraview-trame-components/commit/7b0580b0012e1ddc9d7fa1de0d74659a933ab50f))
+
+
 ## v0.5.0 (2024-04-17)
 
 ### Feature

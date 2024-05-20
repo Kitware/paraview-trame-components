@@ -8,4 +8,4 @@ from .utils import PARAVIEW_EXAMPLES, PARAVIEW_ROOT  # noqa: F401
 from .vcr import TimeControl  # noqa: F401
 from .vuetify import *  # noqa: F403
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"

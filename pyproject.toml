@@ -80,6 +80,7 @@ ignore = [
   # ok
   "C408",
   "PLR2004",
+  "SIM117",
   
   # need cleanup
   "ARG001",
@@ -115,6 +116,9 @@ ignore = [
   "F401", 
   "E402", 
   "ANN001", "ANN003",
+  "T201",
+  "ERA001",
+  "SIM117",
 ]
 
 

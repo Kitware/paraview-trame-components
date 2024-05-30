@@ -2,6 +2,17 @@
 
 
 
+## v0.8.0 (2024-05-30)
+
+### Feature
+
+* feat(ViewTable): add initial pass on ViewTable ([`42516a7`](https://github.com/Kitware/paraview-trame-components/commit/42516a75b82c6b02d7f73ecd512a45197d724875))
+
+### Unknown
+
+* Merge main to release ([`775eaad`](https://github.com/Kitware/paraview-trame-components/commit/775eaad48808c8a5047ed1d5fe37a22fd652d3c5))
+
+
 ## v0.7.0 (2024-05-20)
 
 ### Feature

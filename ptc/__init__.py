@@ -9,4 +9,4 @@ from .vcr import TimeControl  # noqa: F401
 from .views.table import ViewTable  # noqa: F401
 from .vuetify import *  # noqa: F403
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"

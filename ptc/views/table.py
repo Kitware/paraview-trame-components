@@ -115,7 +115,8 @@ class ViewTable(v3.VCard):
             self._current_block = self._current_dataset.get(
                 view_table_multiblock_active, self._current_dataset
             )
-        elif self._current_dataset.IsA("vtkPartitionedDataSetCollection"):
+
+        if self._current_dataset.IsA("vtkPartitionedDataSetCollection"):
             self._current_block = self._current_dataset.GetPartitionedDataSet(
                 view_table_multiblock_active
             )
@@ -125,6 +126,14 @@ class ViewTable(v3.VCard):
             )
         else:
             self._current_block = self._current_dataset
+
+        if self._current_block.IsA("vtkPartitionedDataSet"):
+            self._current_block = self._current_block.GetPartition(0)
+
+        if self._current_block is None:
+            self.state.view_table_headers = []
+            self.state.view_table_items = []
+            return
 
         pd = self._current_block.GetPointData()
         n_arrays = pd.GetNumberOfArrays()

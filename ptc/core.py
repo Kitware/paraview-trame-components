@@ -22,6 +22,7 @@ class Viewer:
         self.server = get_server(server)
         self.views = views
         self.html_views = []
+        self.interactive_modes = None
         self.proxy_views = []
         self.ui = None
         if self.views is None or len(self.views) == 0:
@@ -57,6 +58,9 @@ class Viewer:
 
     def _build_ui(self):
         self.state.active_view_id = 1
+        self.state.remote_view_mouse = None
+        self.state.html_view_space = None
+        self.state.client_only("html_view_space")
         with VAppLayout(
             self.server, template_name=self.template_name, full_height=True
         ) as layout:
@@ -79,7 +83,15 @@ class Viewer:
                                     view_html = pv_widgets.VtkRemoteView(
                                         v,
                                         interactive_ratio=1,
+                                        enable_picking=("enable_picking", False),
                                         style="z-index: -1;",
+                                        interactor_events=(
+                                            "remote_view_events",
+                                            ["EndAnimation", "MouseMove"],
+                                        ),
+                                        MouseMove="remote_view_mouse = $event.position",
+                                        mouse_enter="html_view_space = $event.target.getBoundingClientRect()",
+                                        __events=[("mouse_enter", "mouseenter")],
                                     )
                                     v3.VBtn(
                                         icon="mdi-crop-free",
@@ -108,7 +120,15 @@ class Viewer:
                             view_html = pv_widgets.VtkRemoteView(
                                 view,
                                 interactive_ratio=1,
+                                enable_picking=("enable_picking", False),
                                 style="z-index: -1;",
+                                interactor_events=(
+                                    "remote_view_events",
+                                    ["EndAnimation", "MouseMove"],
+                                ),
+                                MouseMove="remote_view_mouse = $event.position",
+                                mouse_enter="html_view_space = $event.target.getBoundingClientRect()",
+                                __events=[("mouse_enter", "mouseenter")],
                             )
                             v3.VBtn(
                                 icon="mdi-crop-free",
@@ -128,6 +148,20 @@ class Viewer:
     @controller.add("on_data_change")
     def update(self):
         self.ctrl.view_update()
+
+    @controller.set("enable_selection")
+    def enable_selection(self, selection=True):
+        if self.interactive_modes is None:
+            self.interactive_modes = [
+                str(v.InteractionMode).replace("'", "") for v in self.proxy_views
+            ]
+
+        if selection:
+            for v in self.proxy_views:
+                v.InteractionMode = "Selection"
+        else:
+            for v, mode in zip(self.proxy_views, self.interactive_modes, strict=False):
+                v.InteractionMode = mode
 
     def reset_camera(self):
         self.ctrl.view_reset_camera()

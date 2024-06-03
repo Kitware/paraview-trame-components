@@ -1,48 +1,12 @@
 name: Create Release
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - release
 
 jobs:
-  push_to_release:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: write
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: main
-
-      - name: Configure git user
-        run: |
-          git config user.email "actions@github.com"
-          git config user.name "github-actions"
-
-      - name: Sync git branches
-        run: |
-          git fetch
-          git checkout main
-          git pull
-          git checkout release
-          git pull
-
-      - name: History main
-        run: |
-          git log main
-
-      - name: History release
-        run: |
-          git log release
-
-      - name: Merge main to release
-        run: |
-          git merge --no-ff main -m "Merge main to release"
-          git push
   release:
-    needs: push_to_release
     runs-on: ubuntu-latest
     concurrency: release
     environment:
@@ -56,7 +20,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: release
 
       - name: Set up Python 3.10
         uses: actions/setup-python@v5

@@ -30,7 +30,7 @@ export PVPYTHON=/Applications/ParaView-5.12.0.app/Contents/bin/pvpython
 
 # Run the scripts
 $PVPYTHON --force-offscreen-rendering ./examples/cone.py
-$PVPYTHON --force-offscreen-rendering ./examples/cone-width-slider.py
+$PVPYTHON --force-offscreen-rendering ./examples/cone-with-slider.py
 $PVPYTHON --force-offscreen-rendering ./examples/wavelet-contour-state.py
 $PVPYTHON --force-offscreen-rendering ./examples/pipeline.py
 ```

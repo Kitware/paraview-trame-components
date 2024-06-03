@@ -8,18 +8,25 @@ Render()
 # Add-on to turn ParaView Python script to a web app
 # ---------------------------------------------------------
 import paraview.web.venv
-from ptc import Viewer
-from trame.widgets.vuetify3 import VSlider
+import ptc
+from trame.widgets import html
 
-web_app = Viewer()
+web_app = ptc.Viewer()
 # add-on UI
-with web_app.side_top:
-    VSlider(
-        v_model=("resolution", 6),
-        min=3,
-        max=60,
-        step=1,
-    )
+with web_app.ui:
+    ptc.HoverPoint()
+
+    with web_app.side_top:
+        ptc.VSlider(
+            v_model=("resolution", 6),
+            min=3,
+            max=60,
+            step=1,
+        )
+        ptc.VBtn(
+            "Hover {{ enable_point_hover ? 'On' : 'Off' }}",
+            click="enable_point_hover = !enable_point_hover",
+        )
 
 
 @web_app.state.change("resolution")

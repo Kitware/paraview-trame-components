@@ -63,6 +63,7 @@ class ColorBy(html.Div):
                 style="pointer-events: auto; user-select: none; background: rgba(255, 255, 255, 0.5);",
             ),
         ):
+            self.server.ui.colorby_prepend()
             vuetify3.VSelect(
                 v_model=("colorby_active", "Solid Color"),
                 items=("colorby_available", []),
@@ -87,6 +88,10 @@ class ColorBy(html.Div):
                             style=f"background: rgb({int(255*r)}, {int(255*g)}, {int(255*b)})",
                             click=(self.set_solid_color, f"[{r}, {g}, {b}]"),
                         )
+
+    @property
+    def prepend(self):
+        return self.server.ui.colorby_prepend
 
     @property
     def state(self):

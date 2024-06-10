@@ -67,10 +67,16 @@ class HoverPoint(v3.VCard):
         selection_extract = {}
         for i in range(nb_sources):
             rep = selected_reps.GetItemAsObject(i)
-            source = rep.GetProperty("Input").GetProxy(0)
+            source = simple.servermanager._getPyProxy(
+                rep.GetProperty("Input").GetProxy(0)
+            )
             self._extract_selection.Selection = simple.servermanager._getPyProxy(
                 source.GetSelectionInput(0)
             )
+            if source != self._extract_selection.Input:
+                simple.ClearSelection(self._extract_selection.Input)
+                self._extract_selection.Input = source
+
             self._extract_selection.UpdatePipeline()
             ds = simple.FetchData(self._extract_selection)[0]
 
@@ -82,8 +88,6 @@ class HoverPoint(v3.VCard):
                 for j in range(n):
                     array = pd.GetAbstractArray(j)
                     selection_extract[array.GetName()] = array.GetTuple(0)
-            else:
-                print("ds", ds)  # noqa: T201
 
         if nb_sources:
             self.state.hover_data = selection_extract

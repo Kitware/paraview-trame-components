@@ -2,6 +2,7 @@ import re
 from pathlib import Path
 
 from paraview import simple
+from trame.decorators import TrameApp, change
 from trame.widgets import html
 from trame.widgets import vuetify3 as v3
 
@@ -37,8 +38,17 @@ def to_suffix(e):
 
 class FileBrowser:
     def __init__(self, home=None, current=None):
+        self._enable_groups = True
         self._home_path = Path(home).resolve() if home else Path.home()
         self._current_path = Path(current).resolve() if current else self._home_path
+
+    @property
+    def enable_groups(self):
+        return self._enable_groups
+
+    @enable_groups.setter
+    def enable_groups(self, v):
+        self._enable_groups = v
 
     @property
     def listing(self):
@@ -93,6 +103,7 @@ class ParaViewFileBrowser:
         exclude=r"^\.|~$|^\$",
         group=r"[0-9]+\.",
     ):
+        self._enable_groups = True
         self._home_path = Path(home).resolve() if home else Path.home()
         self._current_path = Path(current).resolve() if current else self._home_path
         self.pattern_exclude = re.compile(exclude)
@@ -106,6 +117,14 @@ class ParaViewFileBrowser:
         self._proxy_files = simple.servermanager.VectorProperty(
             self._proxy_listing, self._proxy_listing.GetProperty("FileList")
         )
+
+    @property
+    def enable_groups(self):
+        return self._enable_groups
+
+    @enable_groups.setter
+    def enable_groups(self, v):
+        self._enable_groups = v
 
     @property
     def listing(self):
@@ -134,7 +153,7 @@ class ParaViewFileBrowser:
 
             # Group or file?
             file_split = re.split(self.pattern_group, file_name)
-            if len(file_split) == 2:
+            if self.enable_groups and len(file_split) == 2:
                 # Group
                 g_name = "*.".join(file_split)
                 if g_name not in g_map:
@@ -205,19 +224,30 @@ class ParaViewFileBrowser:
         self._current_path = self._current_path.parent
 
     def open_dataset(self, entry):
+        event = {}
         if to_type(entry) == "group":
             files = [str(self._current_path / f) for f in entry.get("files")]
             source = simple.OpenDataFile(files)
-            simple.Show(source)
-            simple.Render()
+            representation = simple.Show(source)
+            view = simple.Render()
+            event = dict(
+                source=source, representation=representation, view=view, type="group"
+            )
         else:
             source = simple.OpenDataFile(str(self._current_path / entry.get("name")))
-            simple.Show(source)
-            simple.Render()
+            representation = simple.Show(source)
+            view = simple.Render()
+            event = dict(
+                source=source, representation=representation, view=view, type="dataset"
+            )
+
+        return event
 
     def open_state(self, entry):
-        simple.LoadState(str(self._current_path / entry.get("name")))
-        simple.Render()
+        state_file = str(self._current_path / entry.get("name"))
+        simple.LoadState(state_file)
+        view = simple.Render()
+        return dict(type="state", view=view, state_file=state_file)
 
 
 # -----------------------------------------------------------------------------
@@ -225,6 +255,7 @@ class ParaViewFileBrowser:
 # -----------------------------------------------------------------------------
 
 
+@TrameApp()
 class OpenFileDialog(v3.VDialog):
     def __init__(
         self,
@@ -328,6 +359,17 @@ class OpenFileDialog(v3.VDialog):
                                 )
 
             with v3.VCardActions():
+                v3.VCheckbox(
+                    v_model=("ptc_openfile_groups", True),
+                    density="compact",
+                    hide_details=True,
+                    false_icon="mdi-file-document-outline",
+                    true_icon="mdi-file-document-multiple-outline",
+                    label=(
+                        "` Groups ${ptc_openfile_groups ? 'enabled' : 'disabled'}`",
+                    ),
+                    classes="mx-2",
+                )
                 v3.VSpacer()
                 if open_state_available:
                     v3.VBtn(
@@ -391,7 +433,10 @@ class OpenFileDialog(v3.VDialog):
 
     def open_dataset(self, entry):
         self.state.ptc_openfile_dialog_open = False
-        self._file_browser.open_dataset(entry)
+        event = self._file_browser.open_dataset(entry)
+        if self.server.controller.on_file_open.exists():
+            self.server.controller.on_file_open(event)
+
         self.server.controller.on_data_loaded()
         self.server.controller.on_data_change()
         self.server.controller.on_active_proxy_change()
@@ -404,6 +449,11 @@ class OpenFileDialog(v3.VDialog):
         self.server.controller.on_data_change()
         self.server.controller.on_active_proxy_change()
         simple.GetActiveView().MakeRenderWindowInteractor(True)
+
+    @change("ptc_openfile_groups")
+    def on_enable_group_change(self, ptc_openfile_groups, **_):
+        self._file_browser.enable_groups = ptc_openfile_groups
+        self._update_listing()
 
 
 class OpenFileToggle(v3.VBtn):

@@ -2,19 +2,30 @@
 
 
 
-<<<<<<< HEAD
-=======
+## v0.10.0 (2024-06-10)
+
+### Unknown
+
+* Merge branch &#39;release&#39; ([`e7132bd`](https://github.com/Kitware/paraview-trame-components/commit/e7132bdf13381f93a7b53729a84187ee55afc2c0))
+
+
 ## v0.9.0 (2024-06-10)
 
 ### Ci
 
 * ci: release workflow ([`afb53f0`](https://github.com/Kitware/paraview-trame-components/commit/afb53f0d37636641a3bf7a1f5da0fe3f34f2f678))
 
+* ci: release workflow ([`0e62694`](https://github.com/Kitware/paraview-trame-components/commit/0e62694abface9828fab373dc0c43f9376ba4fa6))
+
 ### Feature
 
 * feat(representation): add representation widget ([`9874d7c`](https://github.com/Kitware/paraview-trame-components/commit/9874d7c45b2608c9423b0e2d70e4996282d9f41e))
 
 * feat(hover): initial hover support ([`bcc9d1a`](https://github.com/Kitware/paraview-trame-components/commit/bcc9d1ac706f102c4f85c058034615499f886362))
+
+* feat(representation): add representation widget ([`c37af90`](https://github.com/Kitware/paraview-trame-components/commit/c37af908e09b9f2733499eb4576f33c03192aa5d))
+
+* feat(hover): initial hover support ([`87d23a9`](https://github.com/Kitware/paraview-trame-components/commit/87d23a92cebd6d8ee4bbce16b46c35ab82953c6e))
 
 ### Fix
 
@@ -24,8 +35,13 @@
 
 * fix(selection): getting closer ([`4366e6a`](https://github.com/Kitware/paraview-trame-components/commit/4366e6aaf8a25e66c2f3f1efb04f4a3c2c48f5ae))
 
+* fix(hover): fully working ([`5393bd0`](https://github.com/Kitware/paraview-trame-components/commit/5393bd0910e892efc8ec07929fb845e223c76c5b))
 
->>>>>>> release
+* fix(files): enable group toggling ([`83dd294`](https://github.com/Kitware/paraview-trame-components/commit/83dd29482380f1a4c269a917f11a7cde40fed16b))
+
+* fix(selection): getting closer ([`372cbf9`](https://github.com/Kitware/paraview-trame-components/commit/372cbf90d245b8132e97c05ae79ebf8f498c4670))
+
+
 ## v0.8.0 (2024-05-30)
 
 ### Feature

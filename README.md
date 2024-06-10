@@ -33,6 +33,7 @@ $PVPYTHON --force-offscreen-rendering ./examples/cone.py
 $PVPYTHON --force-offscreen-rendering ./examples/cone-with-slider.py
 $PVPYTHON --force-offscreen-rendering ./examples/wavelet-contour-state.py
 $PVPYTHON --force-offscreen-rendering ./examples/pipeline.py
+$PVPYTHON --force-offscreen-rendering ./examples/selection.py
 ```
 
 ## Scripts structure

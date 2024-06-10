@@ -1,10 +1,12 @@
-from paraview import simple
+from paraview import selection, simple
+from paraview.vtk import vtkCollection
 from trame.decorators import TrameApp, change
-from trame.widgets import html, vuetify3
+from trame.widgets import html
+from trame.widgets import vuetify3 as v3
 
 
 @TrameApp()
-class HoverPoint(vuetify3.VCard):
+class HoverPoint(v3.VCard):
     def __init__(self):
         super().__init__(
             v_show=("enable_point_hover", False),
@@ -14,13 +16,15 @@ class HoverPoint(vuetify3.VCard):
             ),
         )
 
+        self.state.hover_data = {}
         self._extract_selection = simple.ExtractSelection()
 
         with self:
-            html.Div("Some content")
-            # self.load_data_from_proxy = ViewTable(
-            #     self._extract_selection
-            # ).load_data_from_proxy
+            with v3.VTable(density="compact"):
+                with html.Tbody():
+                    with html.Tr(v_for="v, k in hover_data", key="k"):
+                        html.Td("{{ k }}")
+                        html.Td("{{ v }}")
 
     @change("enable_point_hover")
     def on_activation_change(self, enable_point_hover, enable_picking, **_):
@@ -42,12 +46,46 @@ class HoverPoint(vuetify3.VCard):
         x_max = int(x + 0.5)
         y = remote_view_mouse.get("y")
         y_max = int(y + 0.5)
-        simple.SelectSurfacePoints(
-            Rectangle=[int(x), int(y), x_max, y_max], Modifier=None
+
+        view = simple.GetActiveView()
+        simple.Render(view)
+
+        selected_reps = vtkCollection()
+        selection_sources = vtkCollection()
+        view.SelectSurfacePoints(
+            [int(x), int(y), x_max, y_max],
+            selected_reps,
+            selection_sources,
+            0,
         )
+        selection._collectSelectionPorts(
+            selected_reps, selection_sources, False, Modifier=None
+        )
+        simple.Render(view)
+
+        nb_sources = selection_sources.GetNumberOfItems()
+        selection_extract = {}
+        for i in range(nb_sources):
+            rep = selected_reps.GetItemAsObject(i)
+            source = rep.GetProperty("Input").GetProxy(0)
+            self._extract_selection.Selection = simple.servermanager._getPyProxy(
+                source.GetSelectionInput(0)
+            )
+            self._extract_selection.UpdatePipeline()
+            ds = simple.FetchData(self._extract_selection)[0]
+
+            if ds.GetNumberOfPoints() == 1:
+                x, y, z = ds.GetPoint(0)
+                selection_extract["(x, y, z)"] = [x, y, z]
+                pd = ds.GetPointData()
+                n = pd.GetNumberOfArrays()
+                for j in range(n):
+                    array = pd.GetAbstractArray(j)
+                    selection_extract[array.GetName()] = array.GetTuple(0)
+            else:
+                print("ds", ds)  # noqa: T201
+
+        if nb_sources:
+            self.state.hover_data = selection_extract
+
         self.ctrl.view_update()
-
-        self._extract_selection.UpdatePipeline()
-        ds = simple.FetchData(self._extract_selection)[0]
-
-        print(ds.GetNumberOfPoints())  # noqa: T201

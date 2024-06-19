@@ -38,10 +38,12 @@ class PipelineBrowser(GitTree):
                 ),
             },
         )
+        self._internal_proxies = set()
         self._deleted_ids = set()
         self.update()
         self.server.controller.on_active_view_change.add(self.update)
         self.server.controller.on_data_loaded.add(self.update)
+        self.server.controller.register_internal_proxy.add(self.register_internal_proxy)
 
     def on_active_change(self, active_ids, **_):
         current_active = simple.GetActiveSource()
@@ -79,6 +81,9 @@ class PipelineBrowser(GitTree):
             actives.append(active_proxy.GetGlobalIDAsString())
         self.server.state.pipeline_actives = actives
 
+    def register_internal_proxy(self, proxy):
+        self._internal_proxies.add(proxy.GetGlobalIDAsString())
+
     def update_sources(self, **_):
         sources = []
         proxies = PXM.GetProxiesInGroup("sources")
@@ -91,6 +96,9 @@ class PipelineBrowser(GitTree):
             source = {"parent": "0"}
             source["name"] = key[0]
             source["id"] = key[1]
+
+            if key[1] in self._internal_proxies:
+                continue
 
             representation = simple.GetRepresentation(proxy=proxy, view=view_proxy)
             if representation:

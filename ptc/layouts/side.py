@@ -3,25 +3,29 @@ from trame.widgets import html
 
 def side_left():
     return html.Div(
-        style="position: absolute; top: 1rem; bottom: 1rem; left: 1rem; z-index: 1;"
+        classes="ptc-region",
+        style="position: absolute; top: 1rem; bottom: 1rem; left: 1rem;",
     )
 
 
 def side_right():
     return html.Div(
-        style="position: absolute; top: 1rem; bottom: 1rem; right: 1rem; z-index: 1;"
+        classes="ptc-region",
+        style="position: absolute; top: 1rem; bottom: 1rem; right: 1rem;",
     )
 
 
 def side_bottom():
     return html.Div(
-        style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; z-index: 1;"
+        classes="ptc-region",
+        style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem;",
     )
 
 
 def side_top():
     return html.Div(
-        style="position: absolute; top: 1rem; left: 1rem; right: 1rem; z-index: 1;"
+        classes="ptc-region",
+        style="position: absolute; top: 1rem; left: 1rem; right: 1rem;",
     )
 
 

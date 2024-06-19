@@ -461,7 +461,6 @@ class OpenFileToggle(v3.VBtn):
         super().__init__(
             icon="mdi-file-document-plus-outline",
             click="ptc_openfile_dialog_open = !ptc_openfile_dialog_open",
-            style="pointer-events: auto;",
             **kwargs,
         )
         self.dialog = OpenFileDialog(dialog_open=False)

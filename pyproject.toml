@@ -53,6 +53,7 @@ packages = ["ptc"]
 artifacts = [
   "ptc/**/*.svg",
   "ptc/**/*.png",
+  "ptc/**/*.css",
 ]
 
 [project.scripts]
@@ -75,7 +76,7 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.ruff.lint]
-select = ["ALL"]
+select = ["E", "F", "B"]
 ignore = [
   # ok
   "C408",

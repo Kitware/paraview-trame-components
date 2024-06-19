@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from paraview import simple
 from trame.app import get_server
 from trame.decorators import TrameApp, change, controller
@@ -20,6 +22,17 @@ class Viewer:
         self.layout_factory = create_layout_manager(self)
         self.template_name = template_name
         self.server = get_server(server)
+
+        # Serve our http directory
+        self.server.enable_module(
+            {
+                "serve": {
+                    "ptc": str(Path(__file__).with_name("assets") / "http"),
+                },
+                "styles": ["ptc/style.css"],
+            }
+        )
+
         self.views = views
         self.html_views = []
         self.interactive_modes = None

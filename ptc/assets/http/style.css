@@ -1,0 +1,12 @@
+.ptc-region {
+    z-index: 1; 
+    pointer-events: none !important;
+}
+
+.ptc-over {
+    z-index: 10 !important;  
+}
+
+.ptc-region > * {
+    pointer-events: auto;
+}

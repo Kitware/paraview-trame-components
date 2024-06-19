@@ -3,22 +3,22 @@ from trame.widgets.html import Div
 
 def col_left():
     return Div(
-        classes="d-flex flex-column align-start ",
-        style="position: absolute; top: 1rem; bottom: 1rem; left: 1rem; width: calc(33vw - 0.5rem); z-index: 1; pointer-events: none;",
+        classes="d-flex flex-column align-start ptc-region ptc-over",
+        style="position: absolute; top: 1rem; bottom: 1rem; left: 1rem; width: calc(33vw - 0.5rem);",
     )
 
 
 def col_center():
     return Div(
-        classes="d-flex flex-column align-center justify-space-between ",
-        style="position: absolute; top: 1rem; bottom: 1rem; left: 50%; width: calc(33vw - 0.5rem); z-index: 1; transform: translateX(-50%); pointer-events: none;",
+        classes="d-flex flex-column align-center justify-space-between ptc-region ptc-over",
+        style="position: absolute; top: 1rem; bottom: 1rem; left: 50%; width: calc(33vw - 0.5rem); transform: translateX(-50%);",
     )
 
 
 def col_right():
     return Div(
-        classes="d-flex flex-column align-end ",
-        style="position: absolute; bottom: 1rem; top: 1rem; right: 1rem; width: calc(33vw - 0.5rem); z-index: 1; pointer-events: none;",
+        classes="d-flex flex-column align-end ptc-region ptc-over",
+        style="position: absolute; bottom: 1rem; top: 1rem; right: 1rem; width: calc(33vw - 0.5rem);",
     )
 
 

@@ -2,6 +2,19 @@
 
 
 
+## v0.10.1 (2024-06-19)
+
+### Fix
+
+* fix(hover): prevent crash ([`ce7ef77`](https://github.com/Kitware/paraview-trame-components/commit/ce7ef77380fe5c5f602c27ccd0361b3f0d4bfa06))
+
+* fix(colors): color selection available for solid-color only ([`a8e90c2`](https://github.com/Kitware/paraview-trame-components/commit/a8e90c201e405e07a549ec06700a01bf505459fc))
+
+* fix(pipeline): allow to register internal filter ([`1eb3d0d`](https://github.com/Kitware/paraview-trame-components/commit/1eb3d0d01f8ff9b59e8d5a7ae31b020872c6addc))
+
+* fix(layout): better pointer event handling ([`e2cc481`](https://github.com/Kitware/paraview-trame-components/commit/e2cc4812433e3b2e395b3df39dcdedda339da581))
+
+
 ## v0.10.0 (2024-06-10)
 
 ### Unknown

@@ -65,7 +65,7 @@ class ColorBy(html.Div):
         ):
             self.server.ui.colorby_prepend()
             vuetify3.VSelect(
-                v_model=("colorby_active", "Solid Color"),
+                v_model=("colorby_active", ""),
                 items=("colorby_available", []),
                 density="compact",
                 hide_details=True,
@@ -80,6 +80,7 @@ class ColorBy(html.Div):
                         flat=True,
                         density="compact",
                         classes="mx-2",
+                        v_show="colorby_active === ''",
                     )
                 with html.Div(style="max-width: 20rem;", classes="d-flex flex-wrap"):
                     for r, g, b in COLOR_PALETTE:

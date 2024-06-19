@@ -1,6 +1,6 @@
 from paraview import selection, simple
 from paraview.vtk import vtkCollection
-from trame.decorators import TrameApp, change
+from trame.decorators import TrameApp, change, controller
 from trame.widgets import html
 from trame.widgets import vuetify3 as v3
 
@@ -17,7 +17,7 @@ class HoverPoint(v3.VCard):
         )
 
         self.state.hover_data = {}
-        self._extract_selection = simple.ExtractSelection()
+        self._extract_selection = None
 
         with self:
             with v3.VTable(density="compact"):
@@ -29,18 +29,34 @@ class HoverPoint(v3.VCard):
     @change("enable_point_hover")
     def on_activation_change(self, enable_point_hover, enable_picking, **_):
         if enable_point_hover:
+            if self._extract_selection is None:
+                self._extract_selection = simple.ExtractSelection()
+                self.server.controller.register_internal_proxy(self._extract_selection)
             self.state.enable_picking = True
             self.ctrl.enable_selection(True)
         elif enable_picking:
             simple.ClearSelection()
+            if self._extract_selection and self._extract_selection.Input:
+                simple.ClearSelection(self._extract_selection.Input)
+
             self.state.enable_picking = False
             self.ctrl.enable_selection(False)
             self.ctrl.view_update()
+
+    @controller.add("on_active_proxy_change")
+    def create_extract(self, *_):
+        if self._extract_selection is None:
+            self._extract_selection = simple.ExtractSelection()
+            self.server.controller.register_internal_proxy(self._extract_selection)
 
     @change("remote_view_mouse")
     def on_hover(self, enable_point_hover, remote_view_mouse, **_):
         if not enable_point_hover:
             return
+
+        if self._extract_selection is None:
+            self._extract_selection = simple.ExtractSelection()
+            self.server.controller.register_internal_proxy(self._extract_selection)
 
         x = remote_view_mouse.get("x")
         x_max = int(x + 0.5)
@@ -73,9 +89,12 @@ class HoverPoint(v3.VCard):
             self._extract_selection.Selection = simple.servermanager._getPyProxy(
                 source.GetSelectionInput(0)
             )
-            if source != self._extract_selection.Input:
-                simple.ClearSelection(self._extract_selection.Input)
-                self._extract_selection.Input = source
+
+            # Crash ParaView sometime
+            # if source != self._extract_selection.Input:
+            #     print("clear selection")
+            #     # simple.ClearSelection(self._extract_selection.Input)
+            #     self._extract_selection.Input = source
 
             self._extract_selection.UpdatePipeline()
             ds = simple.FetchData(self._extract_selection)[0]

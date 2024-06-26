@@ -11,4 +11,4 @@ from .vcr import TimeControl  # noqa: F401
 from .views.table import ViewTable  # noqa: F401
 from .vuetify import *  # noqa: F403
 
-__version__ = "0.10.2"
+__version__ = "0.10.3"

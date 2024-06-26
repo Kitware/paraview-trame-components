@@ -54,6 +54,7 @@ artifacts = [
   "ptc/**/*.svg",
   "ptc/**/*.png",
   "ptc/**/*.css",
+  "ptc/assets/http/**/*",
 ]
 
 [project.scripts]

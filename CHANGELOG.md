@@ -2,6 +2,13 @@
 
 
 
+## v0.10.2 (2024-06-26)
+
+### Fix
+
+* fix(http): properly register missing assets ([`a56157d`](https://github.com/Kitware/paraview-trame-components/commit/a56157dcacca415627d173fbac3b56ce6d54c38f))
+
+
 ## v0.10.1 (2024-06-19)
 
 ### Fix

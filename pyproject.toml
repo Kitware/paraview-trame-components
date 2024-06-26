@@ -42,14 +42,10 @@ ci = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.hatch.build]
-include = [
-  "ptc/assets/http/**/*",
-]
-
 [tool.hatch.build.targets.sdist]
 include = [
   "*.py",
+  "ptc/assets/http/*.css",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -58,6 +54,7 @@ artifacts = [
   "ptc/**/*.svg",
   "ptc/**/*.png",
   "ptc/**/*.css",
+  "ptc/assets/http/*.css",
 ]
 
 [project.scripts]

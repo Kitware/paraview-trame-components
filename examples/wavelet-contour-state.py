@@ -267,13 +267,14 @@ from trame.widgets.vuetify3 import VSlider
 web_app = Viewer()
 
 # add-on UI
-with web_app.top:
+with web_app.side_top:
     VSlider(
         v_model=("value", contour1.Isosurfaces[0]),
         min=37,
         max=276,
         step=0.5,
         color="primary",
+        style="margin: 0 100px;",
     )
 
 

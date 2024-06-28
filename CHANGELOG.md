@@ -2,6 +2,17 @@
 
 
 
+## v0.10.5 (2024-06-28)
+
+### Documentation
+
+* docs(example): fix layout region ([`c7f85d8`](https://github.com/Kitware/paraview-trame-components/commit/c7f85d826583b3a999810293bbda1f7f78d27f3a))
+
+### Fix
+
+* fix(hover): only call ctrl method if available ([`6b7e700`](https://github.com/Kitware/paraview-trame-components/commit/6b7e7005f1e51e6295493c5fee7f1b850bb65ad2))
+
+
 ## v0.10.4 (2024-06-26)
 
 ### Fix

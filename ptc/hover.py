@@ -31,7 +31,10 @@ class HoverPoint(v3.VCard):
         if enable_point_hover:
             if self._extract_selection is None:
                 self._extract_selection = simple.ExtractSelection()
-                self.server.controller.register_internal_proxy(self._extract_selection)
+                if self.server.controller.register_internal_proxy.exists():
+                    self.server.controller.register_internal_proxy(
+                        self._extract_selection
+                    )
             self.state.enable_picking = True
             self.ctrl.enable_selection(True)
         elif enable_picking:
@@ -47,7 +50,8 @@ class HoverPoint(v3.VCard):
     def create_extract(self, *_):
         if self._extract_selection is None:
             self._extract_selection = simple.ExtractSelection()
-            self.server.controller.register_internal_proxy(self._extract_selection)
+            if self.server.controller.register_internal_proxy.exists():
+                self.server.controller.register_internal_proxy(self._extract_selection)
 
     @change("remote_view_mouse")
     def on_hover(self, enable_point_hover, remote_view_mouse, **_):
@@ -56,7 +60,8 @@ class HoverPoint(v3.VCard):
 
         if self._extract_selection is None:
             self._extract_selection = simple.ExtractSelection()
-            self.server.controller.register_internal_proxy(self._extract_selection)
+            if self.server.controller.register_internal_proxy.exists():
+                self.server.controller.register_internal_proxy(self._extract_selection)
 
         x = remote_view_mouse.get("x")
         x_max = int(x + 0.5)

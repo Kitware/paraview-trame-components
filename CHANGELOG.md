@@ -2,6 +2,25 @@
 
 
 
+## v0.11.0 (2024-07-01)
+
+### Documentation
+
+* docs(hover): create toggle on selection type ([`960111b`](https://github.com/Kitware/paraview-trame-components/commit/960111b0ab1219f5f7d89142074f6fb5f47dc3f2))
+
+### Feature
+
+* feat(multiblock): add helper for multiblock ([`aedd191`](https://github.com/Kitware/paraview-trame-components/commit/aedd191787ee958dd2407def318eba8ea6b72fa1))
+
+### Fix
+
+* fix(RepresentBy): proper component name ([`cc59414`](https://github.com/Kitware/paraview-trame-components/commit/cc59414a0c80829f909f519a4be5d097f15b4408))
+
+* fix(hover): maintain active proxy ([`5110d80`](https://github.com/Kitware/paraview-trame-components/commit/5110d803a666173eefce898a41fd5dd5771322ac))
+
+* fix(hover): enable points/cells selection ([`28909e3`](https://github.com/Kitware/paraview-trame-components/commit/28909e3c53d8655341159daa0cbebe7a74a28241))
+
+
 ## v0.10.5 (2024-06-28)
 
 ### Documentation

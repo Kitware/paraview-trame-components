@@ -18,6 +18,13 @@ with web_app.ui:
                 click="enable_point_hover = !enable_point_hover",
                 classes="mx-2",
             )
+            ptc.VBtn(
+                icon=(
+                    "hover_mode === 'points' ? 'mdi-dots-triangle' : 'mdi-triangle-outline'",
+                ),
+                click="hover_mode = hover_mode === 'points' ? 'cells' : 'points'",
+                classes="mx-2",
+            )
             with ptc.ColorBy() as color:
                 with color.prepend:
                     ptc.RepresenteBy(classes="mr-2")

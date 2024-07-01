@@ -4,7 +4,7 @@ from trame.widgets import vuetify3 as v3
 
 
 @TrameApp()
-class RepresenteBy(v3.VSelect):
+class RepresentBy(v3.VSelect):
     def __init__(self, **kwargs):
         super().__init__(
             v_if=("representation_show", False),

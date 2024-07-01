@@ -21,7 +21,7 @@ with web_app.col_left:
 with web_app.col_center:
     with ptc.ColorBy() as color:
         with color.prepend:
-            ptc.RepresenteBy(classes="mr-2")
+            ptc.RepresentBy(classes="mr-2")
 
     ptc.VSpacer()
 

@@ -5,7 +5,7 @@ from .file import OpenFileDialog, OpenFileToggle  # noqa: F401
 from .hover import HoverPoint  # noqa: F401
 from .palette import PalettePicker  # noqa: F401
 from .pipeline import PipelineBrowser  # noqa: F401
-from .representation import RepresenteBy  # noqa: F401
+from .representation import RepresentBy  # noqa: F401
 from .utils import PARAVIEW_EXAMPLES, PARAVIEW_ROOT  # noqa: F401
 from .vcr import TimeControl  # noqa: F401
 from .views.table import ViewTable  # noqa: F401

@@ -2,6 +2,21 @@
 
 
 
+## v0.12.0 (2024-08-07)
+
+### Ci
+
+* ci: remove broken release to main merge ([`0d07af3`](https://github.com/Kitware/paraview-trame-components/commit/0d07af303d34ee9ae3b578cae4a6088df20f7179))
+
+### Feature
+
+* feat(apps): add demo apps ([`0a2e80a`](https://github.com/Kitware/paraview-trame-components/commit/0a2e80a5c1e290e3c6fa34a1907e76115c21a6c7))
+
+### Fix
+
+* fix(multiblock): color active block to red ([`f626fdb`](https://github.com/Kitware/paraview-trame-components/commit/f626fdbe19834ba85efa3a9673495ad904950cb5))
+
+
 ## v0.11.0 (2024-07-01)
 
 ### Documentation

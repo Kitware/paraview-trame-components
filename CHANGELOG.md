@@ -2,6 +2,17 @@
 
 
 
+## v0.12.1 (2024-08-08)
+
+### Fix
+
+* fix(apps): add sphere example for parallel rendering ([`c77e622`](https://github.com/Kitware/paraview-trame-components/commit/c77e622645a803e42937b1abcdb3ed4bed794fcb))
+
+### Style
+
+* style(format): ruff update ([`71fcf2f`](https://github.com/Kitware/paraview-trame-components/commit/71fcf2fed1d6ae2a5c1c5d36256d0fbdc9c78219))
+
+
 ## v0.12.0 (2024-08-07)
 
 ### Ci

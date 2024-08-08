@@ -6,7 +6,7 @@ sphere = simple.Sphere()
 rep = simple.Show(sphere)
 view = simple.Render()
 
-simple.ColorBy(rep, ('POINTS', 'vtkProcessId'))
+simple.ColorBy(rep, ("POINTS", "vtkProcessId"))
 
 rep.RescaleTransferFunctionToDataRange(True, False)
 rep.SetScalarBarVisibility(view, True)

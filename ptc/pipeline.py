@@ -43,6 +43,7 @@ class PipelineBrowser(GitTree):
         self.update()
         self.server.controller.on_active_view_change.add(self.update)
         self.server.controller.on_data_loaded.add(self.update)
+        self.server.controller.on_data_change.add(self.update)
         self.server.controller.register_internal_proxy.add(self.register_internal_proxy)
 
     def on_active_change(self, active_ids, **_):

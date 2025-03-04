@@ -11,5 +11,6 @@ from .vcr import TimeControl  # noqa: F401
 from .views.table import ViewTable  # noqa: F401
 from .vuetify import *  # noqa: F403
 from .multiblock import MultiBlockInspector  # noqa: F401
+from .proxy_editor import ProxyEditor  # noqa: F401
 
 __version__ = "0.12.1"

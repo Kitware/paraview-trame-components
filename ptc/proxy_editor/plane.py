@@ -19,6 +19,8 @@ class PlaneEditorPanel(v3.VCard):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        self.flat = True
+
         self.state.setdefault(f"{PREFIX}_mode", "txt")
         self.state.setdefault(f"{PREFIX}_name", "Clip")
         self.state.setdefault(f"{PREFIX}_bounds", [0, 1, 0, 1, 0, 1])

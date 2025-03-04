@@ -4,7 +4,7 @@
 }
 
 .ptc-over {
-    z-index: 10 !important;  
+    z-index: 1000 !important;
 }
 
 .ptc-region > * {

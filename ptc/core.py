@@ -78,13 +78,61 @@ class Viewer:
             self.server, template_name=self.template_name, full_height=True
         ) as layout:
             self.ui = layout
-            with html.Div(classes="d-flex align-stretch fill-height"):
-                for view in self.views:
-                    if isinstance(view, list | tuple):
-                        with html.Div(
-                            classes="d-flex align-stretch fill-height flex-column flex-grow-1 flex-shrink-1"
-                        ):
-                            for v in view:
+            with v3.VLayout() as self.ui_layout:
+                with v3.VMain(classes="fill-height position-relative") as self.ui_main:
+                    with html.Div(
+                        classes="d-flex align-stretch fill-height position-relative"
+                    ) as self.ui_view_container:
+                        for view in self.views:
+                            if isinstance(view, list | tuple):
+                                with html.Div(
+                                    classes="d-flex align-stretch fill-height flex-column flex-grow-1 flex-shrink-1"
+                                ):
+                                    for v in view:
+                                        view_id = len(self.html_views)
+                                        with html.Div(
+                                            classes="flex-grow-1 flex-shrink-1 border-thin position-relative",
+                                            style=(
+                                                f"{{ overflow: 'hidden', zIndex: 0, padding: '1px', margin: '1px', outline: active_view_id === {view_id} ? 'solid 1.5px blue' : 'none' }}",
+                                            ),
+                                            click=f"active_view_id = {view_id}",
+                                        ):
+                                            view_html = pv_widgets.VtkRemoteView(
+                                                v,
+                                                interactive_ratio=1,
+                                                enable_picking=(
+                                                    "enable_picking",
+                                                    False,
+                                                ),
+                                                style="z-index: -1;",
+                                                interactor_events=(
+                                                    "remote_view_events",
+                                                    ["EndAnimation", "MouseMove"],
+                                                ),
+                                                MouseMove="remote_view_mouse = $event.position",
+                                                mouse_enter="html_view_space = $event.target.getBoundingClientRect()",
+                                                __events=[
+                                                    ("mouse_enter", "mouseenter")
+                                                ],
+                                            )
+                                            v3.VBtn(
+                                                icon="mdi-crop-free",
+                                                click=view_html.reset_camera,
+                                                classes="position-absolute",
+                                                style="top: 1rem;right: 1rem; z-index: 1;",
+                                                variant="outlined",
+                                                size="small",
+                                            )
+                                            self.ctrl.on_data_loaded.add(
+                                                view_html.reset_camera
+                                            )
+                                            self.ctrl.view_update.add(view_html.update)
+                                            self.ctrl.view_reset_camera.add(
+                                                view_html.reset_camera
+                                            )
+                                            self.html_views.append(view_html)
+                                            self.proxy_views.append(v)
+                            else:
                                 view_id = len(self.html_views)
                                 with html.Div(
                                     classes="flex-grow-1 flex-shrink-1 border-thin position-relative",
@@ -94,7 +142,7 @@ class Viewer:
                                     click=f"active_view_id = {view_id}",
                                 ):
                                     view_html = pv_widgets.VtkRemoteView(
-                                        v,
+                                        view,
                                         interactive_ratio=1,
                                         enable_picking=("enable_picking", False),
                                         style="z-index: -1;",
@@ -114,49 +162,14 @@ class Viewer:
                                         variant="outlined",
                                         size="small",
                                     )
-                                    self.ctrl.on_data_loaded.add(view_html.reset_camera)
+
                                     self.ctrl.view_update.add(view_html.update)
                                     self.ctrl.view_reset_camera.add(
                                         view_html.reset_camera
                                     )
+                                    self.ctrl.on_data_loaded.add(view_html.reset_camera)
                                     self.html_views.append(view_html)
-                                    self.proxy_views.append(v)
-                    else:
-                        view_id = len(self.html_views)
-                        with html.Div(
-                            classes="flex-grow-1 flex-shrink-1 border-thin position-relative",
-                            style=(
-                                f"{{ overflow: 'hidden', zIndex: 0, padding: '1px', margin: '1px', outline: active_view_id === {view_id} ? 'solid 1.5px blue' : 'none' }}",
-                            ),
-                            click=f"active_view_id = {view_id}",
-                        ):
-                            view_html = pv_widgets.VtkRemoteView(
-                                view,
-                                interactive_ratio=1,
-                                enable_picking=("enable_picking", False),
-                                style="z-index: -1;",
-                                interactor_events=(
-                                    "remote_view_events",
-                                    ["EndAnimation", "MouseMove"],
-                                ),
-                                MouseMove="remote_view_mouse = $event.position",
-                                mouse_enter="html_view_space = $event.target.getBoundingClientRect()",
-                                __events=[("mouse_enter", "mouseenter")],
-                            )
-                            v3.VBtn(
-                                icon="mdi-crop-free",
-                                click=view_html.reset_camera,
-                                classes="position-absolute",
-                                style="top: 1rem;right: 1rem; z-index: 1;",
-                                variant="outlined",
-                                size="small",
-                            )
-
-                            self.ctrl.view_update.add(view_html.update)
-                            self.ctrl.view_reset_camera.add(view_html.reset_camera)
-                            self.ctrl.on_data_loaded.add(view_html.reset_camera)
-                            self.html_views.append(view_html)
-                            self.proxy_views.append(view)
+                                    self.proxy_views.append(view)
 
     @controller.add("on_data_change")
     def update(self):

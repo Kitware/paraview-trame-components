@@ -23,6 +23,8 @@ class ProxyEditor(v3.VCard):
         self._can_delete = None
 
         with self:
+            self.flat = True
+
             if self.style is None:
                 self.style = "width: 20rem;"
             else:
@@ -174,3 +176,7 @@ class ProxyEditor(v3.VCard):
             self.state[template_state_name(idx + 1)] = panel.html
 
         return super().__exit__(exc_type, exc_value, exc_traceback)
+
+    def clear_panels(self):
+        """Remove any previously registered panel"""
+        self.panels.clear()

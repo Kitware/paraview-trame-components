@@ -5,11 +5,12 @@ import ptc
 class VerticalToolbar(v3.VNavigationDrawer):
     def __init__(self, **_):
         super().__init__(
-            theme="dark",
+            theme=("ptc_light_theme ? 'light' : 'dark'",),
             permanent=True,
             rail=True,
             rail_width=40,
         )
+        self.state.setdefault("ptc_light_theme", False)
 
         with self:
             with v3.VList(density="compact", nav=True, classes="pa-0") as self.bar:
@@ -28,9 +29,15 @@ class VerticalToolbar(v3.VNavigationDrawer):
                 )
                 v3.VListItem(
                     prepend_icon="mdi-database-plus-outline",
+                    click="ptc_filter_dialog_open = !ptc_filter_dialog_open",
                 )
-            with html.Div(classes="position-absolute bottom-0 left-0"):
-                ptc.PalettePicker()
+            with html.Div(classes="position-absolute bottom-0 left-0 w-100"):
+                with v3.VList(density="compact", nav=True, classes="pa-0"):
+                    v3.VListItem(
+                        prepend_icon="mdi-theme-light-dark",
+                        click="ptc_light_theme = !ptc_light_theme",
+                    )
+                    ptc.PalettePicker(flat=True)
 
         # Add another drawer for pipeline + editor
         with v3.VNavigationDrawer(

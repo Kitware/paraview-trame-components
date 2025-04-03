@@ -27,6 +27,7 @@ class PalettePicker(vuetify3.VMenu):
                     v_bind="props",
                     size="small",
                     style="pointer-events: auto; user-select: none;",
+                    **kwargs,
                 )
             vuetify3.VList(
                 density="compact",

@@ -5,6 +5,9 @@ class Lite(ptc.Viewer):
     def __init__(self):
         super().__init__(from_state=True, reset_camera_button=False)
 
+        self.state.trame__title = "ParaView Lite"
+        self.state.trame__favicon = "ptc/favicon.png"
+
         with self.ui_layout:
             with ptc.VerticalToolbar().bar:
                 ptc.VListItem(

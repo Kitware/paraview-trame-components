@@ -5,12 +5,22 @@ from trame.widgets import vuetify3 as v3
 from paraview.modules.vtkRemotingServerManager import vtkSMInputArrayDomain
 
 PXM = servermanager.ProxyManager()
-SOURCES = [
+READERS = []
+ALL_SOURCES = [
     (item["group"], item["key"]) for item in PXM.NewDefinitionIterator("sources")
 ]
 FILTERS = [
     (item["group"], item["key"]) for item in PXM.NewDefinitionIterator("filters")
 ]
+for group, name in ALL_SOURCES:
+    hints = PXM.GetProxyHints(group, name)
+    if hints is None:
+        continue
+
+    if hints.FindNestedElementByName("ReaderFactory"):
+        READERS.append((group, name))
+
+SOURCES = sorted(list(set(ALL_SOURCES) - set(READERS)), key=lambda x: x[1])
 
 
 def to_reason(domain):

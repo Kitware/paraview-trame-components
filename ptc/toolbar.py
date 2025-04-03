@@ -24,12 +24,12 @@ class VerticalToolbar(v3.VNavigationDrawer):
                     click="ptc_drawer_pipeline = !ptc_drawer_pipeline",
                 )
                 v3.VListItem(
-                    prepend_icon="mdi-file-plus-outline",
-                    click="ptc_openfile_dialog_open = !ptc_openfile_dialog_open",
-                )
-                v3.VListItem(
                     prepend_icon="mdi-database-plus-outline",
                     click="ptc_filter_dialog_open = !ptc_filter_dialog_open",
+                )
+                v3.VListItem(
+                    prepend_icon="mdi-file-plus-outline",
+                    click="ptc_openfile_dialog_open = !ptc_openfile_dialog_open",
                 )
             with html.Div(classes="position-absolute bottom-0 left-0 w-100"):
                 with v3.VList(density="compact", nav=True, classes="pa-0"):

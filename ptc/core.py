@@ -18,7 +18,14 @@ class InvalidContainerNameError(Exception):
 
 @TrameApp()
 class Viewer:
-    def __init__(self, views=None, from_state=False, server=None, template_name="main"):
+    def __init__(
+        self,
+        views=None,
+        from_state=False,
+        server=None,
+        reset_camera_button=True,
+        template_name="main",
+    ):
         self.layout_factory = create_layout_manager(self)
         self.template_name = template_name
         self.server = get_server(server)
@@ -48,7 +55,7 @@ class Viewer:
             for view in self.views:
                 view.MakeRenderWindowInteractor(True)
 
-        self._build_ui()
+        self._build_ui(reset_camera_button)
 
     @property
     def state(self):
@@ -69,7 +76,7 @@ class Viewer:
             if self.server.controller.on_active_view_change.exists():
                 self.server.controller.on_active_view_change()
 
-    def _build_ui(self):
+    def _build_ui(self, reset_camera_button):
         self.state.active_view_id = 1
         self.state.remote_view_mouse = None
         self.state.html_view_space = None
@@ -115,14 +122,15 @@ class Viewer:
                                                     ("mouse_enter", "mouseenter")
                                                 ],
                                             )
-                                            v3.VBtn(
-                                                icon="mdi-crop-free",
-                                                click=view_html.reset_camera,
-                                                classes="position-absolute",
-                                                style="top: 1rem;right: 1rem; z-index: 1;",
-                                                variant="outlined",
-                                                size="small",
-                                            )
+                                            if reset_camera_button:
+                                                v3.VBtn(
+                                                    icon="mdi-crop-free",
+                                                    click=view_html.reset_camera,
+                                                    classes="position-absolute",
+                                                    style="top: 1rem;right: 1rem; z-index: 1;",
+                                                    variant="outlined",
+                                                    size="small",
+                                                )
                                             self.ctrl.on_data_loaded.add(
                                                 view_html.reset_camera
                                             )
@@ -154,14 +162,15 @@ class Viewer:
                                         mouse_enter="html_view_space = $event.target.getBoundingClientRect()",
                                         __events=[("mouse_enter", "mouseenter")],
                                     )
-                                    v3.VBtn(
-                                        icon="mdi-crop-free",
-                                        click=view_html.reset_camera,
-                                        classes="position-absolute",
-                                        style="top: 1rem;right: 1rem; z-index: 1;",
-                                        variant="outlined",
-                                        size="small",
-                                    )
+                                    if reset_camera_button:
+                                        v3.VBtn(
+                                            icon="mdi-crop-free",
+                                            click=view_html.reset_camera,
+                                            classes="position-absolute",
+                                            style="top: 1rem;right: 1rem; z-index: 1;",
+                                            variant="outlined",
+                                            size="small",
+                                        )
 
                                     self.ctrl.view_update.add(view_html.update)
                                     self.ctrl.view_reset_camera.add(

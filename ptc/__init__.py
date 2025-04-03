@@ -14,5 +14,6 @@ from trame.widgets.html import *  # noqa: F403
 from .multiblock import MultiBlockInspector  # noqa: F401
 from .proxy_editor import ProxyEditor  # noqa: F401
 from .toolbar import VerticalToolbar  # noqa: F401
+from .filters import AddFilterDialog  # noqa: F401
 
 __version__ = "0.12.1"

@@ -282,7 +282,7 @@ class OpenFileDialog(v3.VDialog):
         self.selected_entry = None
 
         # Define UI
-        with self, v3.VCard():
+        with self, v3.VCard(classes="mx-10"):
             style_align_center = "d-flex align-center "
             v3.VCardTitle("Open File", classes="text-center bg-grey-lighten-2")
             with v3.VToolbar(density="compact", color="white"):

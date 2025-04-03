@@ -2,6 +2,23 @@
 
 
 
+## v0.13.0 (2025-04-03)
+
+### Feature
+
+* feat(lite): add simple implementation of Lite ([`d80056e`](https://github.com/Kitware/paraview-trame-components/commit/d80056e34533329614fc57406c3062f59a0e8028))
+
+* feat(toolbar): add vertical toolbar ([`a38f177`](https://github.com/Kitware/paraview-trame-components/commit/a38f1774138d058662f0d68eb8dd612cded9803d))
+
+* feat(proxy-editor): add Proxy Editor infrastructure ([`df529ab`](https://github.com/Kitware/paraview-trame-components/commit/df529ab8f993b7cca4e276fed44cf193aa034128))
+
+### Fix
+
+* fix(sources): remove readers ([`ab9991b`](https://github.com/Kitware/paraview-trame-components/commit/ab9991b5c655dcadc81a23fca223793b19204e4a))
+
+* fix(pipeline): update visibility on data_change ([`5472b93`](https://github.com/Kitware/paraview-trame-components/commit/5472b93f711a31320bc4cf301e258011fc5137e3))
+
+
 ## v0.12.1 (2024-08-08)
 
 ### Fix

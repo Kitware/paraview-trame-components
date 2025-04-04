@@ -3,6 +3,7 @@ name = "paraview-trame-components"
 version = "0.13.1"
 requires-python = ">= 3.10"
 dependencies = [
+  "pyyaml",
   "trame",
   "trame-vtk",
   "trame-vuetify",

@@ -56,6 +56,7 @@ class VerticalToolbar(v3.VNavigationDrawer):
             with ptc.ProxyEditor() as self.proxy_editor:
                 # register UI we want to have available
                 ptc.proxy_editor.InfoPanel()
+                ptc.proxy_editor.YamlEditorPanel()
                 ptc.proxy_editor.PlaneEditorPanel()
 
         # Add File browser

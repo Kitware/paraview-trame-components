@@ -2,6 +2,13 @@
 
 
 
+## v0.13.2 (2025-04-04)
+
+### Fix
+
+* fix(proxy-editor): add yaml editor as fallback ([`362c6c3`](https://github.com/Kitware/paraview-trame-components/commit/362c6c3607d4f1389f171c75df83d6a1a8422c52))
+
+
 ## v0.13.1 (2025-04-04)
 
 ### Fix

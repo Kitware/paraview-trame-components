@@ -2,6 +2,13 @@
 
 
 
+## v0.13.1 (2025-04-04)
+
+### Fix
+
+* fix(key-binding): add keyboard navigation ([`766e6f5`](https://github.com/Kitware/paraview-trame-components/commit/766e6f543bc1c356bd0d5ee7796f7aea6dabaf50))
+
+
 ## v0.13.0 (2025-04-03)
 
 ### Feature

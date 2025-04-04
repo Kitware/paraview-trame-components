@@ -28,17 +28,17 @@ def customize(elem, class_name):
 with web_app.col_left as left:
     customize(left, "bg-blue")
     for i in range(4):
-        create_elem(f"Item {i+1}")
+        create_elem(f"Item {i + 1}")
 
 with web_app.col_center as center:
     customize(center, "bg-white")
     for i in range(2):
-        create_elem(f"Item {i+1}")
+        create_elem(f"Item {i + 1}")
 
 
 with web_app.col_right as right:
     customize(right, "bg-red")
     for i in range(4):
-        create_elem(f"Item {i+1}")
+        create_elem(f"Item {i + 1}")
 
 web_app.start()

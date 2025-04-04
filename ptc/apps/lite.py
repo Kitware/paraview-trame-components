@@ -1,4 +1,6 @@
 import ptc
+from trame.widgets.trame import MouseTrap
+from paraview import simple
 
 
 class Lite(ptc.Viewer):
@@ -7,6 +9,26 @@ class Lite(ptc.Viewer):
 
         self.state.trame__title = "ParaView Lite"
         self.state.trame__favicon = "ptc/favicon.png"
+
+        with self.ui:
+            with MouseTrap(
+                ptcResetCamera=(self.reset_camera, "[$event?.altKey]"),
+                ptcFileOpen="ptc_openfile_dialog_open = !ptc_openfile_dialog_open",
+                ptcFilterAdd="ptc_filter_dialog_open = !ptc_filter_dialog_open",
+                ptcPipeline="ptc_drawer_pipeline = !ptc_drawer_pipeline",
+                ptcColor="ptc_show_color_by = !ptc_show_color_by",
+                ptcTime="ptc_show_vcr = !ptc_show_vcr",
+                ptcThemeLight="ptc_light_theme = true",
+                ptcThemeDark="ptc_light_theme = false",
+            ) as mt:
+                mt.bind(["r", "alt+r"], "ptcResetCamera")
+                mt.bind(["meta+o", "ctrl+o"], "ptcFileOpen")
+                mt.bind(["alt+space", "meta+space", "ctrl+space"], "ptcFilterAdd")
+                mt.bind(["p"], "ptcPipeline")
+                mt.bind(["c"], "ptcColor")
+                mt.bind(["t"], "ptcTime")
+                mt.bind(["l"], "ptcThemeLight")
+                mt.bind(["d"], "ptcThemeDark")
 
         with self.ui_layout:
             with ptc.VerticalToolbar().bar:
@@ -37,6 +59,17 @@ class Lite(ptc.Viewer):
                 color.v_show = ("ptc_show_color_by", False)
                 with color.prepend:
                     ptc.RepresentBy(classes="mr-2")
+
+    def reset_camera(self, use_active_proxy_bounds=False):
+        bounds = None
+        view = simple.GetActiveView()
+        source = simple.GetActiveSource()
+
+        if use_active_proxy_bounds and source:
+            bounds = source.GetDataInformation().DataInformation.GetBounds()
+
+        view.ResetCamera(bounds)
+        self.update()
 
 
 def main():

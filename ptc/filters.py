@@ -109,14 +109,6 @@ class AddFilterDialog(v3.VDialog):
 
         # Define UI
         with self, v3.VCard(classes="w-50 mx-auto pa-2"):
-            # NOT WORKING
-            # with tc.MouseTrap(
-            #     Open="ptc_filter_dialog_open = !ptc_filter_dialog_open",
-            # ) as mt:
-            #     mt.bind("alt+space", "Open")
-            #     mt.bind("meta+space", "Open")
-            #     mt.bind("ctrl+space", "Open")
-
             client.ClientStateChange(
                 value="ptc_filter_active",
                 change="utils.get('document').querySelector('.ptc-active-filter')?.scrollIntoView({ inline: 'nearest' })",

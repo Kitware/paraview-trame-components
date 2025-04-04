@@ -86,7 +86,7 @@ class ColorBy(html.Div):
                     for r, g, b in COLOR_PALETTE:
                         vuetify3.VBtn(
                             classes="ma-1",
-                            style=f"background: rgb({int(255*r)}, {int(255*g)}, {int(255*b)})",
+                            style=f"background: rgb({int(255 * r)}, {int(255 * g)}, {int(255 * b)})",
                             click=(self.set_solid_color, f"[{r}, {g}, {b}]"),
                         )
 

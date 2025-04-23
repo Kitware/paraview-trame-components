@@ -2,6 +2,17 @@
 
 
 
+## v0.13.3 (2025-04-23)
+
+### Fix
+
+* fix(python): remove min version ([`dcecf46`](https://github.com/Kitware/paraview-trame-components/commit/dcecf461f47bcdc9185c06c62fdd7a492886cb0e))
+
+* fix(layout): side on top ([`41a9eb5`](https://github.com/Kitware/paraview-trame-components/commit/41a9eb5a72725023d0d5c10b45bf3e0168ced54b))
+
+* fix(apps): allow apps usage in jupyter ([`621d35b`](https://github.com/Kitware/paraview-trame-components/commit/621d35b8b085a66aac4803acb3da14d05331b4a6))
+
+
 ## v0.13.2 (2025-04-04)
 
 ### Fix

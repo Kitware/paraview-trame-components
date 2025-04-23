@@ -59,7 +59,10 @@ artifacts = [
 ]
 
 [project.scripts]
-semantic-release = "semantic_release.cli:main"
+# ptc-lite = "ptc.apps.lite:main"
+# ptc-demo = "ptc.apps.demo:main"
+# ptc-sphere = "ptc.apps.sphere:main"
+# ptc-state = "ptc.apps.state_loader:main"
 
 # -----------------------------------------------------------------------------
 # Code quality: Ruff, Codespell

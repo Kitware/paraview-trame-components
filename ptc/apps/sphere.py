@@ -2,14 +2,24 @@ import paraview.web.venv  # noqa: F401
 from paraview import simple
 import ptc
 
-sphere = simple.Sphere()
-rep = simple.Show(sphere)
-view = simple.Render()
 
-simple.ColorBy(rep, ("POINTS", "vtkProcessId"))
+class Sphere(ptc.Viewer):
+    def __init__(self):
+        self.sphere = simple.Sphere()
+        self.rep = simple.Show(self.sphere)
+        self.view = simple.Render()
 
-rep.RescaleTransferFunctionToDataRange(True, False)
-rep.SetScalarBarVisibility(view, True)
+        simple.ColorBy(self.rep, ("POINTS", "vtkProcessId"))
+        self.rep.RescaleTransferFunctionToDataRange(True, False)
+        self.rep.SetScalarBarVisibility(self.view, True)
 
-web_app = ptc.Viewer(from_state=True)
-web_app.start()
+        super().__init__(from_state=True)
+
+
+def main():
+    app = Sphere()
+    app.start()
+
+
+if __name__ == "__main__":
+    main()

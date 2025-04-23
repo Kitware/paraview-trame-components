@@ -8,8 +8,10 @@ The ParaView binary is purposefully missing SSL which for the context of Jupyter
 conda create --name ptc python=3.12 -y
 conda config --add channels conda-forge
 conda activate ptc
+conda install -y paraview-trame-components
 
-conda install paraview jupyterlab paraview-trame-components
+# Then add jupyterlab
+conda install -y jupyterlab
 ```
 
 ## Running PTC in Jupyter

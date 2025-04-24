@@ -16,4 +16,4 @@ from .proxy_editor import ProxyEditor  # noqa: F401
 from .toolbar import VerticalToolbar  # noqa: F401
 from .filters import AddFilterDialog  # noqa: F401
 
-__version__ = "0.13.3"
+__version__ = "0.13.4"

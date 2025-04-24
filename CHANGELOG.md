@@ -2,6 +2,29 @@
 
 
 
+## v0.13.4 (2025-04-24)
+
+### Documentation
+
+* docs(jupyter): update readme ([`86283b2`](https://github.com/Kitware/paraview-trame-components/commit/86283b26b28c79da274ac21960d7a2a485bef158))
+
+* docs(jupyter): add example ([`9ca58b1`](https://github.com/Kitware/paraview-trame-components/commit/9ca58b1de8178e7cd62ebed1a5e9e1315b5550a1))
+
+### Fix
+
+* fix: gracefully handle failure to find paraview root
+
+Previously, if the paraview root was not found, this function would end up in an infinite loop,
+since the parent of the root directory is also the root directory. This was happening for conda
+installations, in particular. If the root is not found, gracefully set the paths to `None`.
+
+Signed-off-by: Patrick Avery &lt;patrick.avery@kitware.com&gt; ([`ae34bb3`](https://github.com/Kitware/paraview-trame-components/commit/ae34bb3a866f7c9def16af329b299e02e4c6d5a2))
+
+### Style
+
+* style: ruff format ([`69c6021`](https://github.com/Kitware/paraview-trame-components/commit/69c6021aee7c120ce21375141422fcf775898e99))
+
+
 ## v0.13.3 (2025-04-23)
 
 ### Fix

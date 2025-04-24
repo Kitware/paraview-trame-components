@@ -5,7 +5,7 @@ import paraview
 
 def find_paraview_root_directory():
     current = Path(paraview.__file__).resolve().parent.parent
-    root_path = Path('/').resolve()  # This works on all operating systems
+    root_path = Path("/").resolve()  # This works on all operating systems
     while "paraview" not in current.name.lower():
         current = current.parent
         if current == root_path:

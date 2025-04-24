@@ -5,14 +5,23 @@ import paraview
 
 def find_paraview_root_directory():
     current = Path(paraview.__file__).resolve().parent.parent
+    root_path = Path('/').resolve()  # This works on all operating systems
     while "paraview" not in current.name.lower():
         current = current.parent
+        if current == root_path:
+            # Failed to find it. Exit early.
+            return None
+
     return current
 
 
 def find_paraview_examples_directory(root_path):
+    if root_path is None:
+        return None
+
     for found_file in root_path.glob("**/can.ex2"):
         return found_file.parent
+
     return None
 
 

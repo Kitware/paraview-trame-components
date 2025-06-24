@@ -16,4 +16,9 @@ from .proxy_editor import ProxyEditor  # noqa: F401
 from .toolbar import VerticalToolbar  # noqa: F401
 from .filters import AddFilterDialog  # noqa: F401
 
+try:
+    from .dockable_views import MultiView  # noqa: F401
+except ImportError:
+    print("MultiView is not available without installing trame-dockview.")
+
 __version__ = "0.13.4"

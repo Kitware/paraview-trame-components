@@ -1,8 +1,8 @@
 from pathlib import Path
 
 from paraview import simple
-from trame.app import get_server
-from trame.decorators import TrameApp, change, controller
+from trame.app import TrameApp
+from trame.decorators import change, controller
 from trame.ui.vuetify3 import VAppLayout
 from trame.widgets import html
 from trame.widgets import paraview as pv_widgets
@@ -16,8 +16,7 @@ class InvalidContainerNameError(Exception):
         super().__init__(f"Container {name} not available")
 
 
-@TrameApp()
-class Viewer:
+class Viewer(TrameApp):
     def __init__(
         self,
         views=None,
@@ -26,9 +25,9 @@ class Viewer:
         reset_camera_button=True,
         template_name="main",
     ):
+        super().__init__(server)
         self.layout_factory = create_layout_manager(self)
         self.template_name = template_name
-        self.server = get_server(server)
 
         # Serve our http directory
         self.server.enable_module(
@@ -56,14 +55,6 @@ class Viewer:
                 view.MakeRenderWindowInteractor(True)
 
         self._build_ui(reset_camera_button)
-
-    @property
-    def state(self):
-        return self.server.state
-
-    @property
-    def ctrl(self):
-        return self.server.controller
 
     def start(self, *args, **kwargs):
         self.ui.flush_content()

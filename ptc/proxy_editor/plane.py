@@ -130,24 +130,30 @@ class PlaneEditorPanel(v3.VCard):
                         with v3.VRow(dense=True, v_show=f"{PREFIX}_mode === 'txt'"):
                             with v3.VCol(cols=4):
                                 v3.VTextField(
-                                    v_model=(f"{PREFIX}_normal_0", 0),
+                                    v_model_number=(f"{PREFIX}_normal_0", 0),
                                     density="compact",
                                     variant="outlined",
                                     hide_details=True,
+                                    type="number",
+                                    hide_spin_buttons=True,
                                 )
                             with v3.VCol(cols=4):
                                 v3.VTextField(
-                                    v_model=(f"{PREFIX}_normal_1", 0),
+                                    v_model_number=(f"{PREFIX}_normal_1", 0),
                                     density="compact",
                                     variant="outlined",
                                     hide_details=True,
+                                    type="number",
+                                    hide_spin_buttons=True,
                                 )
                             with v3.VCol(cols=4):
                                 v3.VTextField(
-                                    v_model=(f"{PREFIX}_normal_2", 0),
+                                    v_model_number=(f"{PREFIX}_normal_2", 0),
                                     density="compact",
                                     variant="outlined",
                                     hide_details=True,
+                                    type="number",
+                                    hide_spin_buttons=True,
                                 )
 
                     with v3.VCol(

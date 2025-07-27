@@ -213,3 +213,6 @@ class Viewer(TrameApp):
 
         with self.ui:
             return manager.create_container(key)
+
+    def __repr__(self):
+        return self._repr_html_()

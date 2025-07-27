@@ -4,6 +4,11 @@ from trame.widgets import html, client
 from trame.widgets import vuetify3 as v3
 from paraview.modules.vtkRemotingServerManager import vtkSMInputArrayDomain
 
+try:
+    from paraview.simple.session import active_objects
+except ImportError:
+    active_objects = simple.active_objects
+
 PXM = servermanager.ProxyManager()
 READERS = []
 ALL_SOURCES = [
@@ -185,7 +190,6 @@ class AddFilterDialog(v3.VDialog):
         inputName = servermanager.vtkSMCoreUtilities.GetInputPropertyName(
             proxy.SMProxy, 0
         )
-        active_objects = simple.active_objects
         if inputName is not None:
             if (
                 proxy.GetProperty(inputName).GetRepeatable()

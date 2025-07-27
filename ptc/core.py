@@ -5,10 +5,13 @@ from trame.app import TrameApp
 from trame.decorators import change, controller
 from trame.ui.vuetify3 import VAppLayout
 from trame.widgets import html
+from trame.widgets import trame as tw
 from trame.widgets import paraview as pv_widgets
 from trame.widgets import vuetify3 as v3
 
 from .layouts import create_layout_manager
+
+from contextlib import suppress
 
 
 class InvalidContainerNameError(Exception):
@@ -38,6 +41,15 @@ class Viewer(TrameApp):
                 "styles": ["ptc/style.css"],
             }
         )
+
+        # initialize all widgets
+        pv_widgets.initialize(self.server)
+        tw.initialize(self.server)
+        v3.initialize(self.server)
+        with suppress(ImportError):
+            from trame.widgets import dockview
+
+            dockview.initialize(self.server)
 
         self.views = views
         self.html_views = []

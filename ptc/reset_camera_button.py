@@ -20,11 +20,9 @@ class ResetCameraButtons(v3.VBtnGroup):
     """
     A widget composed of 4 buttons to reset the camera of a view :
     - The first is used to reset the camera to see the entire object.
-    - The second places the camera at -x and look in the x direction.
-    - The third places the camera at -y and look in the y direction.
-    - The fourth places the camera at -z and look in the z direction.
-
-    By default, they will be placed at the top left of its parent component.
+    - The second places the camera at -x from the object and look in the x direction.
+    - The third places the camera at -y from the object and look in the y direction.
+    - The fourth places the camera at -z from the object and look in the z direction.
     """
 
     def __init__(
@@ -64,24 +62,22 @@ class ResetCameraButtons(v3.VBtnGroup):
             ),
             Button(
                 icon="mdi-axis-x-arrow",
-                tooltip="Reset Camera X",
+                tooltip="Set view direction to +X",
                 click_callback=reset_to_positive_x,
             ),
             Button(
                 icon="mdi-axis-y-arrow",
-                tooltip="Reset Camera Y",
+                tooltip="Set view direction to +Y",
                 click_callback=reset_to_positive_y,
             ),
             Button(
                 icon="mdi-axis-z-arrow",
-                tooltip="Reset Camera Z",
+                tooltip="Set view direction to +Z",
                 click_callback=reset_to_positive_z,
             ),
         ]
 
-        with (
-            self,
-        ):
+        with self:
             for button in buttons:
                 with (
                     v3.VTooltip(button.tooltip, location="bottom"),
@@ -91,10 +87,8 @@ class ResetCameraButtons(v3.VBtnGroup):
                         v_bind=("props",),
                         click=button.click_callback,
                         variant="text",
-                        # variant="outlined",
                         size="small",
                         classes="ma-0",
-                        style="background-color: white;",
                     ),
                 ):
                     v3.VIcon(button.icon)

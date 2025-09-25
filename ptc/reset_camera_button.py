@@ -45,15 +45,15 @@ class ResetCameraButtons(v3.VBtnGroup):
             simple.Render()
 
         def reset_to_positive_x() -> None:
-            simple.GetActiveView().ResetActiveCameraToPositiveX()
+            self.view.ResetActiveCameraToPositiveX()
             self.ctrl.view_reset_camera()
 
         def reset_to_positive_y() -> None:
-            simple.GetActiveView().ResetActiveCameraToPositiveY()
+            self.view.ResetActiveCameraToPositiveY()
             self.ctrl.view_reset_camera()
 
         def reset_to_positive_z() -> None:
-            simple.GetActiveView().ResetActiveCameraToPositiveZ()
+            self.view.ResetActiveCameraToPositiveZ()
             self.ctrl.view_reset_camera()
 
         buttons = [

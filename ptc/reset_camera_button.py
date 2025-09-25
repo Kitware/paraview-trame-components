@@ -29,7 +29,7 @@ class ResetCameraButtons(v3.VBtnGroup):
         self, style: str | None = None, classes: str | None = None, **kwargs
     ) -> None:
         if style is None:
-            style = "top: 0.5rem; left: 0.5rem"
+            style = "top: 0.5rem; left: 0.5rem; background-color: white;"
         if classes is None:
             classes = "position-absolute"
         super().__init__(

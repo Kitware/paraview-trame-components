@@ -31,11 +31,11 @@ class ResetCameraButtons(v3.VBtnGroup):
         self,
         style: str | None = None,
         classes: str | None = None,
-        reset_camera: bool = True,
-        reset_camera_x: bool = True,
-        reset_camera_y: bool = True,
-        reset_camera_z: bool = True,
-        camera_style_toggle: bool = True,
+        reset_camera_visibility: bool = True,
+        reset_camera_x_visibility: bool = True,
+        reset_camera_y_visibility: bool = True,
+        reset_camera_z_visibility: bool = True,
+        interaction_mode_visibility: bool = True,
         **kwargs,
     ) -> None:
         if style is None:
@@ -49,6 +49,13 @@ class ResetCameraButtons(v3.VBtnGroup):
         )
 
         self.state.setdefault("interaction_mode", "3D")
+        self.state.setdefault("reset_camera_visibility", reset_camera_visibility)
+        self.state.setdefault("reset_camera_x_visibility", reset_camera_x_visibility)
+        self.state.setdefault("reset_camera_y_visibility", reset_camera_y_visibility)
+        self.state.setdefault("reset_camera_z_visibility", reset_camera_z_visibility)
+        self.state.setdefault(
+            "interaction_mode_visibility", interaction_mode_visibility
+        )
 
         def reset_camera_callback() -> None:
             self.ctrl.view_reset_camera()
@@ -79,38 +86,38 @@ class ResetCameraButtons(v3.VBtnGroup):
                 tooltip="Change interaction mode",
                 click_callback=toggle_interaction_mode_3D,
                 v_show=("interaction_mode === '2D'"),
-                v_if="true" if camera_style_toggle else "false",
+                v_if=("interaction_mode_visibility",),
             ),
             Button(
                 icon="mdi-video-3d",
                 tooltip="Change interaction mode",
                 click_callback=toggle_interaction_mode_2D,
                 v_show=("interaction_mode === '3D'"),
-                v_if="true" if camera_style_toggle else "false",
+                v_if=("interaction_mode_visibility",),
             ),
             Button(
                 icon="mdi-crop-free",
                 tooltip="Reset Camera",
                 click_callback=reset_camera_callback,
-                v_if="true" if reset_camera else "false",
+                v_if=("reset_camera_visibility",),
             ),
             Button(
                 icon="mdi-axis-x-arrow",
                 tooltip="Set view direction to +X",
                 click_callback=reset_to_positive_x,
-                v_if="true" if reset_camera_x else "false",
+                v_if=("reset_camera_x_visibility",),
             ),
             Button(
                 icon="mdi-axis-y-arrow",
                 tooltip="Set view direction to +Y",
                 click_callback=reset_to_positive_y,
-                v_if="true" if reset_camera_y else "false",
+                v_if=("reset_camera_y_visibility",),
             ),
             Button(
                 icon="mdi-axis-z-arrow",
                 tooltip="Set view direction to +Z",
                 click_callback=reset_to_positive_z,
-                v_if="true" if reset_camera_z else "false",
+                v_if=("reset_camera_z_visibility",),
             ),
         ]
 

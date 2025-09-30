@@ -6,8 +6,8 @@ with the inclusion of the buttons
 import paraview.web.venv  # noqa: F401, isort: skip
 
 
-from trame.app import get_server
-from trame.decorators import TrameApp, change
+from trame.app import get_server, TrameApp
+from trame.decorators import change
 from trame.widgets import vuetify3 as v3, paraview as pv_widgets
 from trame.ui.vuetify3 import SinglePageLayout
 
@@ -18,7 +18,7 @@ from ptc import ResetCameraButtons
 
 class ConeApp(TrameApp):
     def __init__(self, server=None):
-        self.server = get_server(server, client_type="vue3")
+        super().__init__(server, client_type="vue3")
 
         self.cone = simple.Cone()
         self.representation = simple.Show(self.cone)
@@ -26,14 +26,6 @@ class ConeApp(TrameApp):
 
         self.state.trame__title = "ParaView - Cone"
         self.ui = self._build_ui()
-
-    @property
-    def state(self):
-        return self.server.state
-
-    @property
-    def ctrl(self):
-        return self.server.controller
 
     @change("resolution")
     def on_resolution_change(self, resolution, **_):

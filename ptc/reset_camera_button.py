@@ -34,10 +34,6 @@ class ResetCameraButtons(v3.VBtnGroup):
         )
 
         self.state.setdefault("interaction_mode", "3D")
-        self.state.setdefault("show_reset_camera", show_reset_camera)
-        self.state.setdefault("show_reset_camera_x", show_reset_camera_x)
-        self.state.setdefault("show_reset_camera_y", show_reset_camera_y)
-        self.state.setdefault("show_reset_camera_z", show_reset_camera_z)
         self.state.setdefault("show_interaction_mode", show_interaction_mode)
 
         def reset_camera_callback() -> None:
@@ -70,7 +66,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                     v_bind=("props",),
                     click=(change_interaction_mode, "['3D']"),
                     v_show=("interaction_mode === '2D'"),
-                    v_if=("show_interaction_mode",),
+                    v_if=("show_interaction_mode", show_interaction_mode),
                 )
 
             with (
@@ -97,7 +93,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                         icon="mdi-crop-free",
                         v_bind=("props",),
                         click=reset_camera_callback,
-                        v_if=("show_reset_camera",),
+                        v_if=("show_reset_camera", show_reset_camera),
                     ),
                 )
 
@@ -113,7 +109,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                         icon="mdi-axis-x-arrow",
                         v_bind=("props",),
                         click=reset_to_positive_x,
-                        v_if=("show_reset_camera_x",),
+                        v_if=("show_reset_camera_x", show_reset_camera_x),
                     ),
                 )
 
@@ -129,7 +125,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                         icon="mdi-axis-y-arrow",
                         v_bind=("props",),
                         click=reset_to_positive_y,
-                        v_if=("show_reset_camera_y",),
+                        v_if=("show_reset_camera_y", show_reset_camera_y),
                     ),
                 )
 
@@ -145,7 +141,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                         icon="mdi-axis-z-arrow",
                         v_bind=("props",),
                         click=reset_to_positive_z,
-                        v_if=("show_reset_camera_z",),
+                        v_if=("show_reset_camera_z", show_reset_camera_z),
                     ),
                 )
 

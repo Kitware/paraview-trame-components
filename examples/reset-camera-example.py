@@ -6,7 +6,7 @@ with the inclusion of the buttons
 import paraview.web.venv  # noqa: F401, isort: skip
 
 
-from trame.app import get_server, TrameApp
+from trame.app import TrameApp
 from trame.decorators import change
 from trame.widgets import vuetify3 as v3, paraview as pv_widgets
 from trame.ui.vuetify3 import SinglePageLayout

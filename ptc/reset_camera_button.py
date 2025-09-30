@@ -1,21 +1,6 @@
-from dataclasses import dataclass
-from typing import Callable
-
+from typing import Literal
 from paraview import simple
 from trame.widgets import vuetify3 as v3
-
-
-@dataclass
-class Button:
-    """
-    A minimal class to create a button.
-    """
-
-    icon: str
-    tooltip: str
-    click_callback: Callable
-    v_show: str = "true"
-    v_if: str = "true"
 
 
 class ResetCameraButtons(v3.VBtnGroup):
@@ -72,78 +57,99 @@ class ResetCameraButtons(v3.VBtnGroup):
             self.view.ResetActiveCameraToPositiveZ()
             self.ctrl.view_reset_camera()
 
-        def toggle_interaction_mode_2D() -> None:
-            self.view.InteractionMode = "2D"
-            self.state.interaction_mode = "2D"
-
-        def toggle_interaction_mode_3D() -> None:
-            self.view.InteractionMode = "3D"
-            self.state.interaction_mode = "3D"
-
-        buttons = [
-            Button(
-                icon="mdi-video-2d",
-                tooltip="Change interaction mode",
-                click_callback=toggle_interaction_mode_3D,
-                v_show=("interaction_mode === '2D'"),
-                v_if=("interaction_mode_visibility",),
-            ),
-            Button(
-                icon="mdi-video-3d",
-                tooltip="Change interaction mode",
-                click_callback=toggle_interaction_mode_2D,
-                v_show=("interaction_mode === '3D'"),
-                v_if=("interaction_mode_visibility",),
-            ),
-            Button(
-                icon="mdi-crop-free",
-                tooltip="Reset Camera",
-                click_callback=reset_camera_callback,
-                v_if=("reset_camera_visibility",),
-            ),
-            Button(
-                icon="mdi-axis-x-arrow",
-                tooltip="Set view direction to +X",
-                click_callback=reset_to_positive_x,
-                v_if=("reset_camera_x_visibility",),
-            ),
-            Button(
-                icon="mdi-axis-y-arrow",
-                tooltip="Set view direction to +Y",
-                click_callback=reset_to_positive_y,
-                v_if=("reset_camera_y_visibility",),
-            ),
-            Button(
-                icon="mdi-axis-z-arrow",
-                tooltip="Set view direction to +Z",
-                click_callback=reset_to_positive_z,
-                v_if=("reset_camera_z_visibility",),
-            ),
-        ]
+        def change_interaction_mode(mode: Literal["2D", "3D"]) -> None:
+            self.view.InteractionMode = mode
+            self.state.interaction_mode = mode
+            self.ctrl.view_update()
 
         with self:
-            for button in buttons:
-                if button.tooltip is None:
+            with (
+                v3.VTooltip("Change interaction mode", location="bottom"),
+                v3.Template(v_slot_activator=("{ props }",)),
+            ):
+                v3.VBtn(
+                    icon="mdi-video-2d",
+                    v_bind=("props",),
+                    click=(change_interaction_mode, "['3D']"),
+                    v_show=("interaction_mode === '2D'"),
+                    v_if=("interaction_mode_visibility",),
+                )
+
+            with (
+                v3.VTooltip("Change interaction mode", location="bottom"),
+                v3.Template(v_slot_activator=("{ props }",)),
+            ):
+                v3.VBtn(
+                    icon="mdi-video-3d",
+                    v_bind=("props",),
+                    click=(change_interaction_mode, "['2D']"),
+                    v_show=("interaction_mode === '3D'"),
+                    v_if=("interaction_mode_visibility",),
+                )
+
+            with (
+                v3.VTooltip(
+                    "Reset Camera",
+                    location="bottom",
+                ),
+                v3.Template(v_slot_activator=("{ props }",)),
+            ):
+                (
                     v3.VBtn(
-                        icon=button.icon,
-                        click=button.click_callback,
-                        size="small",
-                        v_show=button.v_show,
-                        v_if=button.v_if,
-                    )
-                else:
-                    with (
-                        v3.VTooltip(button.tooltip, location="bottom"),
-                        v3.Template(v_slot_activator=("{ props }",)),
-                    ):
-                        v3.VBtn(
-                            icon=button.icon,
-                            v_bind=("props",),
-                            click=button.click_callback,
-                            size="small",
-                            v_show=button.v_show,
-                            v_if=button.v_if,
-                        )
+                        icon="mdi-crop-free",
+                        v_bind=("props",),
+                        click=reset_camera_callback,
+                        v_if=("reset_camera_visibility",),
+                    ),
+                )
+
+            with (
+                v3.VTooltip(
+                    "Set view direction to +X",
+                    location="bottom",
+                ),
+                v3.Template(v_slot_activator=("{ props }",)),
+            ):
+                (
+                    v3.VBtn(
+                        icon="mdi-axis-x-arrow",
+                        v_bind=("props",),
+                        click=reset_to_positive_x,
+                        v_if=("reset_camera_x_visibility",),
+                    ),
+                )
+
+            with (
+                v3.VTooltip(
+                    "Set view direction to +Y",
+                    location="bottom",
+                ),
+                v3.Template(v_slot_activator=("{ props }",)),
+            ):
+                (
+                    v3.VBtn(
+                        icon="mdi-axis-y-arrow",
+                        v_bind=("props",),
+                        click=reset_to_positive_y,
+                        v_if=("reset_camera_y_visibility",),
+                    ),
+                )
+
+            with (
+                v3.VTooltip(
+                    "Set view direction to +Z",
+                    location="bottom",
+                ),
+                v3.Template(v_slot_activator=("{ props }",)),
+            ):
+                (
+                    v3.VBtn(
+                        icon="mdi-axis-z-arrow",
+                        v_bind=("props",),
+                        click=reset_to_positive_z,
+                        v_if=("reset_camera_z_visibility",),
+                    ),
+                )
 
     @property
     def view(self):

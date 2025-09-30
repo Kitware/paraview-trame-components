@@ -16,8 +16,7 @@ from ptc import ResetCameraButtons
 # -----------------------------------------------------------------------------
 
 
-@TrameApp()
-class ConeApp:
+class ConeApp(TrameApp):
     def __init__(self, server=None):
         self.server = get_server(server, client_type="vue3")
 

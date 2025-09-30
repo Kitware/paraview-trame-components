@@ -16,11 +16,11 @@ class ResetCameraButtons(v3.VBtnGroup):
         self,
         style: str | None = None,
         classes: str | None = None,
-        reset_camera_visibility: bool = True,
-        reset_camera_x_visibility: bool = True,
-        reset_camera_y_visibility: bool = True,
-        reset_camera_z_visibility: bool = True,
-        interaction_mode_visibility: bool = True,
+        show_reset_camera: bool = True,
+        show_reset_camera_x: bool = True,
+        show_reset_camera_y: bool = True,
+        show_reset_camera_z: bool = True,
+        show_interaction_mode: bool = True,
         **kwargs,
     ) -> None:
         if style is None:
@@ -34,13 +34,11 @@ class ResetCameraButtons(v3.VBtnGroup):
         )
 
         self.state.setdefault("interaction_mode", "3D")
-        self.state.setdefault("reset_camera_visibility", reset_camera_visibility)
-        self.state.setdefault("reset_camera_x_visibility", reset_camera_x_visibility)
-        self.state.setdefault("reset_camera_y_visibility", reset_camera_y_visibility)
-        self.state.setdefault("reset_camera_z_visibility", reset_camera_z_visibility)
-        self.state.setdefault(
-            "interaction_mode_visibility", interaction_mode_visibility
-        )
+        self.state.setdefault("show_reset_camera", show_reset_camera)
+        self.state.setdefault("show_reset_camera_x", show_reset_camera_x)
+        self.state.setdefault("show_reset_camera_y", show_reset_camera_y)
+        self.state.setdefault("show_reset_camera_z", show_reset_camera_z)
+        self.state.setdefault("show_interaction_mode", show_interaction_mode)
 
         def reset_camera_callback() -> None:
             self.ctrl.view_reset_camera()
@@ -72,7 +70,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                     v_bind=("props",),
                     click=(change_interaction_mode, "['3D']"),
                     v_show=("interaction_mode === '2D'"),
-                    v_if=("interaction_mode_visibility",),
+                    v_if=("show_interaction_mode",),
                 )
 
             with (
@@ -84,7 +82,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                     v_bind=("props",),
                     click=(change_interaction_mode, "['2D']"),
                     v_show=("interaction_mode === '3D'"),
-                    v_if=("interaction_mode_visibility",),
+                    v_if=("show_interaction_mode",),
                 )
 
             with (
@@ -99,7 +97,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                         icon="mdi-crop-free",
                         v_bind=("props",),
                         click=reset_camera_callback,
-                        v_if=("reset_camera_visibility",),
+                        v_if=("show_reset_camera",),
                     ),
                 )
 
@@ -115,7 +113,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                         icon="mdi-axis-x-arrow",
                         v_bind=("props",),
                         click=reset_to_positive_x,
-                        v_if=("reset_camera_x_visibility",),
+                        v_if=("show_reset_camera_x",),
                     ),
                 )
 
@@ -131,7 +129,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                         icon="mdi-axis-y-arrow",
                         v_bind=("props",),
                         click=reset_to_positive_y,
-                        v_if=("reset_camera_y_visibility",),
+                        v_if=("show_reset_camera_y",),
                     ),
                 )
 
@@ -147,7 +145,7 @@ class ResetCameraButtons(v3.VBtnGroup):
                         icon="mdi-axis-z-arrow",
                         v_bind=("props",),
                         click=reset_to_positive_z,
-                        v_if=("reset_camera_z_visibility",),
+                        v_if=("show_reset_camera_z",),
                     ),
                 )
 

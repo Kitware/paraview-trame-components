@@ -70,6 +70,13 @@ class ConeApp:
                 pv_widgets.VtkRemoteView(self.view, interactive_ratio=1) as html_view,
             ):
                 ResetCameraButtons(rounded="xl")
+                # ResetCameraButtons(
+                #     reset_camera=True,
+                #     reset_camera_x=False,
+                #     reset_camera_y=False,
+                #     reset_camera_z=True,
+                #     camera_style_toggle=True, # Toggle between 2D and 3D
+                # )
                 # ResetCameraButtons(classes="position-absolute", style="top: 1rem; right: 1rem;")
                 self.ctrl.view_reset_camera = html_view.reset_camera
                 self.ctrl.view_update = html_view.update

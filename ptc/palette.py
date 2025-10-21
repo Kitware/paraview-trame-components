@@ -1,5 +1,9 @@
+import logging
 from paraview import simple
 from trame.widgets import vuetify3
+from trame_server.controller import FunctionNotImplementedError
+
+logger = logging.getLogger(__name__)
 
 PALETTES = [
     {"title": "Blue Gray Background (Default)", "value": "BlueGrayBackground"},
@@ -37,4 +41,7 @@ class PalettePicker(vuetify3.VMenu):
 
     def load_palette(self, name):
         simple.LoadPalette(paletteName=name)
-        self.server.controller.on_data_change()
+        try:
+            self.server.controller.on_data_change()
+        except FunctionNotImplementedError:
+            logger.warning("on_data_change is not implemented")

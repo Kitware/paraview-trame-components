@@ -8,17 +8,17 @@ import paraview.web.venv  # noqa: F401, isort: skip
 
 from trame.app import TrameApp
 from trame.decorators import change
-from trame.widgets import vuetify3 as v3, paraview as pv_widgets
-from trame.ui.vuetify3 import SinglePageLayout
+from trame.widgets import vuetify2 as v2, paraview as pv_widgets
+from trame.ui.vuetify2 import SinglePageLayout
 
 from paraview import simple
-from ptc import ResetCameraButtons, PalettePicker
+from ptc.vue2 import ResetCameraButtons, PalettePicker
 # -----------------------------------------------------------------------------
 
 
 class ConeApp(TrameApp):
     def __init__(self, server=None):
-        super().__init__(server, client_type="vue3")
+        super().__init__(server, client_type="vue2")
 
         self.cone = simple.Cone()
         self.representation = simple.Show(self.cone)
@@ -41,8 +41,8 @@ class ConeApp(TrameApp):
             layout.title.set_text("ParaView - Cone")
 
             with layout.toolbar:
-                v3.VSpacer()
-                v3.VSlider(
+                v2.VSpacer()
+                v2.VSlider(
                     v_model=("resolution", 6),
                     min=3,
                     max=60,
@@ -51,13 +51,13 @@ class ConeApp(TrameApp):
                     dense=True,
                     style="max-width: 300px",
                 )
-                v3.VDivider(vertical=True, classes="mx-2")
-                with v3.VBtn(icon=True, click=self.reset_resolution):
-                    v3.VIcon("mdi-undo-variant")
+                v2.VDivider(vertical=True, classes="mx-2")
+                with v2.VBtn(icon=True, click=self.reset_resolution):
+                    v2.VIcon("mdi-undo-variant")
 
             with (
                 layout.content,
-                v3.VContainer(fluid=True, classes="pa-0 fill-height"),
+                v2.VContainer(fluid=True, classes="pa-0 fill-height"),
                 pv_widgets.VtkRemoteView(self.view, interactive_ratio=1) as html_view,
             ):
                 PalettePicker("WhiteBackground")

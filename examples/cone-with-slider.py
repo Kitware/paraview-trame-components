@@ -28,11 +28,25 @@ with web_app.ui:
             click="enable_point_hover = !enable_point_hover",
         )
 
+        html.Div("{{ last_tracked_hover_data }}")
+
 
 @web_app.state.change("resolution")
 def on_resolution_change(resolution, **kwargs):
     cone.Resolution = resolution
     web_app.update()
+
+web_app.state.last_tracked_hover_data = None
+
+@web_app.state.change("hover_data")
+def print_hover_data(hover_data, **kwargs):
+    if hover_data:
+        web_app.state.last_tracked_hover_data = hover_data
+
+@web_app.state.change("enable_point_hover")
+def clear_last_tracked_hover_data(enable_point_hover, **kwargs):
+    if not enable_point_hover:
+        web_app.state.last_tracked_hover_data = None
 
 
 web_app.start()

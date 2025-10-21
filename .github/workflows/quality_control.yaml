@@ -1,0 +1,25 @@
+name: Quality Control
+
+on:
+  pull_request:
+    branches: [main, release]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      # Install and run pre-commit
+      - run: |
+          pip install pre-commit
+          pre-commit install
+          pre-commit run --all-files

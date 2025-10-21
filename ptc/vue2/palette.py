@@ -1,10 +1,11 @@
 import logging
 from paraview import simple
-from trame.widgets import vuetify3, vuetify2
+from trame.widgets import vuetify2
 from trame_server.controller import FunctionNotImplementedError
 from ..palette import PALETTES
 
 logger = logging.getLogger(__name__)
+
 
 class PalettePicker(vuetify2.VMenu):
     def __init__(self, palette_name=None, **kwargs):
@@ -26,7 +27,11 @@ class PalettePicker(vuetify2.VMenu):
                 ):
                     vuetify2.VIcon("mdi-palette-outline")
             with vuetify2.VList():
-                vuetify2.VListItem("{{ palette.title }}", v_for="palette in palette_list", click=(self.load_palette, "[palette.value]"))
+                vuetify2.VListItem(
+                    "{{ palette.title }}",
+                    v_for="palette in palette_list",
+                    click=(self.load_palette, "[palette.value]"),
+                )
 
     def load_palette(self, name):
         simple.LoadPalette(paletteName=name)

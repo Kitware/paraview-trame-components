@@ -2,6 +2,7 @@ from trame.widgets import vuetify2 as v2
 from paraview import simple
 from typing import Literal
 
+
 class ResetCameraButtons(v2.VBtnToggle):
     """
     A widget composed of 4 buttons to reset the camera of a view :

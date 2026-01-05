@@ -1,6 +1,8 @@
+from contextlib import suppress
 from dataclasses import dataclass
 from vtkmodules.vtkCommonDataModel import vtkDataAssembly
 from trame.widgets import vuetify3
+from trame_server.controller import FunctionNotImplementedError
 from paraview import simple
 
 vuetify3.enable_lab()
@@ -71,13 +73,19 @@ def assemby_to_tree(assembly):
 
 
 class MultiBlockInspector(vuetify3.VTreeview):
+    PREFIX = "multiblock_inspector"
+    id = 0
+
     def __init__(self, listen_to_active=True, proxy=None, **kwargs):
+        self._mid = MultiBlockInspector.id
+        MultiBlockInspector.id += 1
+
         super().__init__(
-            items=("multiblock_tree", []),
+            items=(f"{self.prefix}multiblock_tree", []),
             **{
                 "activatable": True,
                 "active_strategy": "classic",
-                "v_model_activated": ("multiblock_active", []),
+                "v_model_activated": (f"{self.prefix}multiblock_active", []),
                 "density": "compact",
                 **kwargs,
             },
@@ -88,29 +96,38 @@ class MultiBlockInspector(vuetify3.VTreeview):
         self.listen_to_active = listen_to_active
         self.ctrl.on_active_proxy_change.add(self.on_active_change)
         self.ctrl.on_server_ready.add(self.on_active_change)
-        self.state.change("multiblock_active")(self.on_selection_change)
+        self.state.change(f"{self.prefix}multiblock_active")(self.on_selection_change)
         self.set_source_proxy(proxy)
+
+    @property
+    def prefix(self):
+        return f"{MultiBlockInspector.PREFIX}_{self._mid}_"
 
     @property
     def source_proxy(self):
         return self._proxy
 
+    def on_data_change(self):
+        with suppress(FunctionNotImplementedError):
+            self.server.controller.on_data_change()
+
     def set_source_proxy(self, v):
         self._proxy = v
         self._assembly = proxy_to_assembly(v)
         if v is None:
-            self.state.multiblock_tree = []
+            self.state[f"{self.prefix}multiblock_tree"] = []
         else:
-            self.state.multiblock_tree = assemby_to_tree(self._assembly).get(
-                "children", []
-            )
+            self.state[f"{self.prefix}multiblock_tree"] = assemby_to_tree(
+                self._assembly
+            ).get("children", [])
 
     def on_active_change(self, **_):
         if self.listen_to_active:
             self.set_source_proxy(simple.GetActiveSource())
 
-    def on_selection_change(self, multiblock_active, **_):
+    def on_selection_change(self, *args, **kwargs):
         # print("active node", multiblock_active)
+        multiblock_active = self.state[f"{self.prefix}multiblock_active"]
         if self._assembly and len(multiblock_active) == 1:
             block_path = self._assembly.GetNodePath(multiblock_active[0])
             rep = simple.GetRepresentation(self._proxy)
@@ -120,8 +137,8 @@ class MultiBlockInspector(vuetify3.VTreeview):
                 "0.0",
                 "0.0",
             ]
-            self.server.controller.on_data_change()
+            self.on_data_change()
         elif self._proxy:
             rep = simple.GetRepresentation(self._proxy)
             rep.BlockColors = []
-            self.server.controller.on_data_change()
+            self.on_data_change()

@@ -1,5 +1,5 @@
 from paraview import simple
-from typing import Any
+from typing import Any, Literal
 
 from trame.decorators import change
 from trame.widgets import color_opacity_editor, html
@@ -112,7 +112,7 @@ class ColorPicker(vuetify.VMenu):
                 classes="w-100",
                 divided=True,
                 landscape=True,
-                max_width=200,
+                max_width=250,
             )
 
 
@@ -191,19 +191,31 @@ class ColorOpacityEditor(html.Div):
             classes="overflow-auto",
             style="width:100%",
         ):
-            with html.Thead():
-                html.Th("Scalar", style="width: 80px;")
             with html.Tbody(v_for="(color, index) in table_colors"):
-                html.Td("{{ color[0].toFixed(5) }}", classes="pa-1")
-                with html.Td(
-                    classes="pa-1", v_for="(component, index2) in ['R', 'G', 'B']"
-                ):
+                with html.Td(classes="pa-1"):
                     vuetify.VNumberInput(
-                        model_value=("color[1][index2]",),
-                        update_modelValue="color[1][index2] = $event; flushState('table_colors');",
+                        model_value=("color[0]",),
+                        update_modelValue="color[0] = $event; flushState('table_colors');",
                         update_focused=(
                             self.on_table_values_focus_changed,
-                            "[$event, index, index2]",
+                            "[$event, 'colors', index, 0]",
+                        ),
+                        label="Scalar",
+                        variant="outlined",
+                        control_variant="hidden",
+                        min=("scalar_range[0]",),
+                        max=("scalar_range[1]",),
+                        precision=(16,),
+                    )
+                with html.Td(
+                    classes="pa-1", v_for="(component, channelId) in ['R', 'G', 'B']"
+                ):
+                    vuetify.VNumberInput(
+                        model_value=("color[1][channelId]",),
+                        update_modelValue="color[1][channelId] = $event; flushState('table_colors');",
+                        update_focused=(
+                            self.on_table_values_focus_changed,
+                            "[$event, 'colors', index, 1, channelId]",
                         ),
                         variant="outlined",
                         label=("component",),
@@ -218,10 +230,22 @@ class ColorOpacityEditor(html.Div):
             classes="overflow-auto",
             style="width:100%",
         ):
-            with html.Tr():
-                html.Th("Scalar", style="width: 50px;")
             with html.Tr(v_for="(opacity, index) in table_opacities"):
-                html.Td("{{ opacity[0].toFixed(5) }}", classes="pa-2")
+                with html.Td(classes="pa-1"):
+                    vuetify.VNumberInput(
+                        model_value=("opacity[0]",),
+                        update_modelValue="opacity[0] = $event; flushState('table_opacities');",
+                        update_focused=(
+                            self.on_table_values_focus_changed,
+                            "[$event, 'opacities', index, 0]",
+                        ),
+                        label="Scalar",
+                        variant="outlined",
+                        control_variant="hidden",
+                        precision=(16,),
+                        min=("scalar_range[0]",),
+                        max=("scalar_range[1]",),
+                    )
                 with html.Td(classes="pa-1"):
                     vuetify.VNumberInput(
                         label="Opacity",
@@ -232,8 +256,10 @@ class ColorOpacityEditor(html.Div):
                         update_modelValue="opacity[1] = $event; flushState('table_opacities');",
                         update_focused=(
                             self.on_table_values_focus_changed,
-                            "[$event, index]",
+                            "[$event,'opacities',  index, 1]",
                         ),
+                        min=0,
+                        max=1,
                     )
 
     def build_content(self) -> None:
@@ -399,24 +425,34 @@ class ColorOpacityEditor(html.Div):
         self.ctrl.view_update()
 
     def on_table_values_focus_changed(
-        self, focus: bool, node_index: int, channel_index: int | None = None
+        self,
+        focus: bool,
+        array_name: Literal["colors", "opacities"],
+        node_index: int,
+        node_component_id: int,
+        channel_index: int | None = None,
     ) -> None:
         if focus:
             return
 
-        array_name = "colors" if channel_index is not None else "opacities"
         table_array_name = f"table_{array_name}"
 
         # Update values when focus is left
         def get_value(state_variable_name: str) -> Any:
             return (
-                self.state[state_variable_name][node_index][1][channel_index]
+                self.state[state_variable_name][node_index][node_component_id][
+                    channel_index
+                ]
                 if channel_index is not None
-                else self.state[state_variable_name][node_index][1]
+                else self.state[state_variable_name][node_index][node_component_id]
             )
 
         old_value = get_value(array_name)
         new_value = get_value(table_array_name)
 
         if old_value != new_value:
-            self.state[array_name] = [*self.state[table_array_name]]
+            table_data = [*self.state[table_array_name]]
+            # Sort table_data only if scalar value changed
+            if node_component_id == 0:
+                table_data.sort(key=lambda x: x[0])
+            self.state[array_name] = table_data

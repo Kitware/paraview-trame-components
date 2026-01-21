@@ -79,6 +79,42 @@ class ColorOpacityEditorConvertor:
             points.append(0)
         return points
 
+    @staticmethod
+    def convert_hex_to_rgb(hex_value: str) -> tuple:
+        return tuple(int(hex_value[i : i + 2], 16) for i in (0, 2, 4))
+
+    @staticmethod
+    def convert_rgb_to_hex(r: int, g: int, b: int) -> str:
+        return "#{:02X}{:02X}{:02X}".format(r, g, b)
+
+
+class ColorPicker(vuetify.VMenu):
+    def __init__(self, state_var_name, **kwargs) -> None:
+        super().__init__(close_on_content_click=False, **kwargs)
+
+        with self:
+            with vuetify.Template(v_slot_activator="{ props }"):
+                with vuetify.VBtn(
+                    "Nan Color",
+                    v_bind="props",
+                    elevation=0,
+                    classes="justify-start",
+                    block=True,
+                ):
+                    with vuetify.Template(v_slot_prepend=True):
+                        vuetify.VIcon(
+                            "mdi-circle",
+                            color=(f"{state_var_name}",),
+                        )
+            vuetify.VColorPicker(
+                v_model=(f"{state_var_name}",),
+                modes=("['rgb']",),
+                classes="w-100",
+                divided=True,
+                landscape=True,
+                max_width=200,
+            )
+
 
 class ColorOpacityEditor(html.Div):
     def __init__(self):
@@ -91,7 +127,7 @@ class ColorOpacityEditor(html.Div):
         self.state.setdefault(
             "presets_names", sorted(simple.ListColorPresetNames(), key=str.casefold)
         )
-
+        self.state.setdefault("nan_color", "#FF0000")
         self.update_scalar_range()
 
         self.build_content()
@@ -229,6 +265,10 @@ class ColorOpacityEditor(html.Div):
                 histograms_color=("histograms_color", [0, 0, 0, 0.25]),
             )
 
+            ColorPicker(
+                state_var_name="nan_color",
+            )
+
             with vuetify.VExpansionPanels(
                 v_model=("opened_panels", [0, 1]),
                 multiple=True,
@@ -254,6 +294,28 @@ class ColorOpacityEditor(html.Div):
             pv_otf_points
         )
 
+    @change("nan_color")
+    def on_nan_color_changed(self, *args, **kwargs) -> None:
+        if not self.state.nan_color:
+            return
+        [_, array_name] = self.get_representation_color_array_name()
+
+        if not array_name:
+            return
+
+        lut = simple.GetColorTransferFunction(array_name)
+        if not lut:
+            return
+
+        rgb_nan_color = ColorOpacityEditorConvertor.convert_hex_to_rgb(
+            self.state.nan_color[1:]
+        )
+        lut.NanColor = [
+            rgb_nan_color[0] / 255,
+            rgb_nan_color[1] / 255,
+            rgb_nan_color[2] / 255,
+        ]
+
     @change("preset_name")
     def on_preset_name_changed(self, *args, **kwargs) -> None:
         [_, array_name] = self.get_representation_color_array_name()
@@ -276,6 +338,14 @@ class ColorOpacityEditor(html.Div):
             )
         else:
             self.update_opacities(otf.Points)
+
+        # Update Nan color
+        pv_nan_color = lut.NanColor
+        self.state.nan_color = ColorOpacityEditorConvertor.convert_rgb_to_hex(
+            max(0, min(int(pv_nan_color[0] * 255), 255)),
+            max(0, min(int(pv_nan_color[1] * 255), 255)),
+            max(0, min(int(pv_nan_color[2] * 255), 255)),
+        )
 
     @change("colors")
     def on_colors_changed(self, *args, **kwargs) -> None:

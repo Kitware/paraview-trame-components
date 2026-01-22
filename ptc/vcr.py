@@ -29,6 +29,7 @@ class TimeControl(vuetify3.VCard):
         self.state.setdefault("time_index", 0)
         self.state.setdefault("time_nb", 0)
         self.state.setdefault("time_value", 0)
+        self.state.setdefault("speed_scale", 1)
 
         with (
             self,
@@ -86,6 +87,26 @@ class TimeControl(vuetify3.VCard):
                 click=self.last,
                 classes="mr-1",
             )
+
+            with vuetify3.VMenu(location="bottom"):
+                with vuetify3.Template(v_slot_activator="{ props }"):
+                    vuetify3.VBtn(
+                        icon="mdi-speedometer-medium",
+                        v_bind="props",
+                        flat=True,
+                        density="compact",
+                        classes="mx-2",
+                    )
+
+                with vuetify3.VBtnToggle(
+                    v_model=("speed_scale",), mandatory=True, direction="vertical"
+                ):
+                    vuetify3.VBtn(
+                        "{{value}}",
+                        value=("value",),
+                        v_for="value in [0.25, 0.5, 1.0, 2.0, 5.0]",
+                    )
+
             html.Div(
                 f"{{{{ {time_expression} }}}}",
                 classes="text-caption text-center",

@@ -1,5 +1,6 @@
 from .cli import cli  # noqa: F401
 from .colors import ColorBy  # noqa: F401
+from .color_opacity_editor import ColorOpacityEditor  # noqa: F401
 from .core import Viewer  # noqa: F401
 from .file import OpenFileDialog, OpenFileToggle  # noqa: F401
 from .hover import HoverPoint  # noqa: F401

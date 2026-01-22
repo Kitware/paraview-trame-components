@@ -10,8 +10,12 @@ from trame.widgets import html, vuetify3
 class TimeControl(vuetify3.VCard):
     def __init__(
         self,
+        time_expression: str = "time_value.toFixed(4)  + ' - ' + time_index + 1 + ' / ' + time_nb",
         **kwargs,
     ):
+        """
+        :param time_expression: Should be a JS string or a state key
+        """
         super().__init__(
             v_show="time_nb > 0",
             **{
@@ -40,6 +44,7 @@ class TimeControl(vuetify3.VCard):
                 click=self.first,
                 classes="mr-1",
             )
+
             vuetify3.VBtn(
                 icon="mdi-chevron-left",
                 density="compact",
@@ -47,6 +52,7 @@ class TimeControl(vuetify3.VCard):
                 click=self.previous,
                 classes="mr-1",
             )
+
             vuetify3.VBtn(
                 icon="mdi-play",
                 density="compact",
@@ -55,6 +61,7 @@ class TimeControl(vuetify3.VCard):
                 click=self.play,
                 v_show="!time_play",
             )
+
             vuetify3.VBtn(
                 icon="mdi-stop",
                 density="compact",
@@ -63,6 +70,7 @@ class TimeControl(vuetify3.VCard):
                 click=self.stop,
                 v_show=("time_play", False),
             )
+
             vuetify3.VBtn(
                 icon="mdi-chevron-right",
                 density="compact",
@@ -70,6 +78,7 @@ class TimeControl(vuetify3.VCard):
                 click=self.next,
                 classes="mr-1",
             )
+
             vuetify3.VBtn(
                 icon="mdi-skip-next",
                 density="compact",
@@ -78,10 +87,11 @@ class TimeControl(vuetify3.VCard):
                 classes="mr-1",
             )
             html.Div(
-                "{{ time_value.toFixed(4) }}  - {{ time_index + 1 }} / {{ time_nb }}",
+                f"{{{{ {time_expression} }}}}",
                 classes="text-caption text-center",
                 style="width: 10rem;",
             )
+
             vuetify3.VSlider(
                 v_model=("time_index", 0),
                 min=0,
@@ -148,4 +158,4 @@ class TimeControl(vuetify3.VCard):
             while self.state.time_play:
                 with self.state:
                     self.next()
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.1 / float(self.state.speed_scale))

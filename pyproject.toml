@@ -8,6 +8,7 @@ dependencies = [
     "trame-vtk",
     "trame-vuetify",
     "trame-components",
+    "trame-color-opacity-editor",
 ]
 
 authors = [

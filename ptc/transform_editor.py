@@ -1,5 +1,7 @@
 import logging
+import uuid
 from dataclasses import dataclass, field
+from typing import Any, Callable
 
 from paraview import simple
 
@@ -10,13 +12,13 @@ from trame_server.utils.typed_state import TypedState
 logger = logging.getLogger(__name__)
 
 
-@dataclass()
+@dataclass
 class AxisComponent:
     value: float = 0.0
     precision: int = 0
     visibility: bool = True
     control_variant: str = "hidden"
-    on_focus_lost_ctrl_callback_name: str = ""
+    on_focus_lost_callback_name: str = ""
 
 
 @dataclass
@@ -39,7 +41,7 @@ class TransformEditorState:
 
 
 class AxisComponentCol(v3.VCol):
-    def __init__(self, inner_state: TypedState[AxisComponent], **kwargs):
+    def __init__(self, inner_state: TypedState[AxisComponent], **kwargs) -> None:
         super().__init__(classes="pa-0", v_if=(inner_state.name.visibility,), **kwargs)
 
         with self:
@@ -50,7 +52,7 @@ class AxisComponentCol(v3.VCol):
                 precision=(inner_state.name.precision,),
                 update_focused=(
                     self.on_focus,
-                    f"[$event, {inner_state.name.on_focus_lost_ctrl_callback_name}]",
+                    f"[$event, {inner_state.name.on_focus_lost_callback_name}]",
                 ),
             )
 
@@ -64,7 +66,7 @@ class AxisComponentCol(v3.VCol):
 
 
 class TransformEditorRow(v3.VRow):
-    def __init__(self, label: str, inner_state: TypedState[Transform]):
+    def __init__(self, label: str, inner_state: TypedState[Transform]) -> None:
         super().__init__(
             max_width="100%",
             align_content="center",
@@ -93,7 +95,7 @@ class TransformEditor(v3.VCard):
         show_origin: bool = True,
         show_apply_button: bool = True,
         **kwargs,
-    ):
+    ) -> None:
         super().__init__(width="100%", **kwargs)
 
         # Initialize component state
@@ -112,7 +114,7 @@ class TransformEditor(v3.VCard):
 
         self._build_ui()
 
-    def _build_ui(self):
+    def _build_ui(self) -> None:
         with self:
             with (
                 v3.VCardText(classes="pb-0"),
@@ -147,14 +149,34 @@ class TransformEditor(v3.VCard):
                 v3.VBtn("Apply", click=self.apply_changes)
 
     @property
-    def source_proxy(self):
+    def source_proxy(self) -> Any:
         return simple.GetActiveSource()
 
     @property
-    def view_proxy(self):
+    def view_proxy(self) -> Any:
         return simple.GetActiveView()
 
-    def _get_display_properties(self):
+    @property
+    def scale_name(self) -> Transform:
+        return self.typed_state.name.scale
+
+    @property
+    def translation_name(self) -> Transform:
+        return self.typed_state.name.translation
+
+    @property
+    def orientation_name(self) -> Transform:
+        return self.typed_state.name.orientation
+
+    @property
+    def origin_name(self) -> Transform:
+        return self.typed_state.name.origin
+
+    def _get_display_properties(self) -> Any:
+        """
+        Get ParaView display properties.
+        :return: paraview.servermanager.GeometryRepresentation object
+        """
         if self.source_proxy is None or self.view_proxy is None:
             logger.warning(
                 "Cannot compute display properties. Missing source proxy or view proxy."
@@ -162,7 +184,7 @@ class TransformEditor(v3.VCard):
             return None
         return simple.GetDisplayProperties(self.source_proxy, view=self.view_proxy)
 
-    def apply_changes(self):
+    def apply_changes(self) -> None:
         self.apply_translation()
         self.apply_origin()
         self.apply_orientation()
@@ -176,7 +198,7 @@ class TransformEditor(v3.VCard):
         except FunctionNotImplementedError:
             logger.warning("on_apply_clicked is not implemented")
 
-    def apply_translation(self):
+    def apply_translation(self) -> None:
         translation = _convert_transform_to_list(self.typed_state.data.translation)
         display_properties = self._get_display_properties()
         if display_properties is None:
@@ -185,7 +207,7 @@ class TransformEditor(v3.VCard):
         display_properties.Translation = translation
         display_properties.PolarAxes.Translation = translation
 
-    def apply_orientation(self):
+    def apply_orientation(self) -> None:
         orientation = _convert_transform_to_list(self.typed_state.data.orientation)
         display_properties = self._get_display_properties()
         if display_properties is None:
@@ -194,7 +216,7 @@ class TransformEditor(v3.VCard):
         display_properties.Orientation = orientation
         display_properties.PolarAxes.Orientation = orientation
 
-    def apply_origin(self):
+    def apply_origin(self) -> None:
         origin = _convert_transform_to_list(self.typed_state.data.origin)
         display_properties = self._get_display_properties()
         if display_properties is None:
@@ -202,7 +224,7 @@ class TransformEditor(v3.VCard):
 
         display_properties.Origin = origin
 
-    def apply_scale(self):
+    def apply_scale(self) -> None:
         scale = _convert_transform_to_list(self.typed_state.data.scale)
         display_properties = self._get_display_properties()
         if display_properties is None:
@@ -211,3 +233,34 @@ class TransformEditor(v3.VCard):
         display_properties.Scale = scale
         display_properties.DataAxesGrid.Scale = scale
         display_properties.PolarAxes.Scale = scale
+
+    def set_components_visibilities(
+        self, visibilities: dict[AxisComponent, bool]
+    ) -> None:
+        for component, visibility in visibilities.items():
+            self.state[component.visibility] = visibility
+
+    def set_components_controls_variants(
+        self, controls_variants: dict[AxisComponent, str]
+    ) -> None:
+        for component, control_variant in controls_variants.items():
+            self.state[component.control_variant] = control_variant
+
+    def _bind_ctrl_method(self, ctrl_key_name: str, ctrl_method: Callable) -> None:
+        self.ctrl[ctrl_key_name] = ctrl_method
+
+    def bind_components_on_focus_lost(
+        self, on_focus_lost_callbacks: dict[AxisComponent, Callable]
+    ) -> None:
+        for component, callable_method in on_focus_lost_callbacks.items():
+            state_var_name = component.on_focus_lost_callback_name
+            callable_id = (
+                self.state[state_var_name] if self.state[state_var_name] else None
+            )
+            if callable_id is None:
+                callable_id = uuid.uuid4().hex.upper()[0:9]
+            self.state[state_var_name] = callable_id
+            self._bind_ctrl_method(callable_id, callable_method)
+
+    def bind_on_apply_button_clicked(self, on_apply_clicked: Callable) -> None:
+        self._bind_ctrl_method("on_apply_clicked", on_apply_clicked)

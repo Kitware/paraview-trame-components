@@ -5,15 +5,14 @@ from ptc import Viewer, TransformEditor
 
 render_view = simple.GetActiveViewOrCreate("RenderView")
 
-# Will not be updated
-sphere = simple.Sphere()
-sphere.Radius = 1.0
-simple.Show(sphere)
+origin_sphere_source = simple.Sphere()
+origin_sphere_source.Radius = 1.0
+simple.Show(origin_sphere_source)
 
 # Will be updated
-box_source = simple.Box()
-simple.Show(box_source)
-simple.SetActiveSource(box_source)
+transformed_box_source = simple.Box()
+simple.Show(transformed_box_source)
+simple.SetActiveSource(transformed_box_source)
 
 web_app = Viewer()
 
@@ -27,34 +26,43 @@ with web_app.ui:
             show_apply_button=True,
         )
 
-        def z_scale_changed_2(_):
-            print("Z Scale changed 2")
+        def z_scale_changed(_):
+            print("Z Scale changed")
 
         transform_editor.typed_state.bind_changes(
-            {transform_editor.typed_state.name.scale.z.value: z_scale_changed_2}
+            {transform_editor.typed_state.name.scale.z.value: z_scale_changed}
         )
 
-        transform_editor.typed_state.data.scale.x.visibility = False
-        transform_editor.typed_state.data.scale.y.visibility = False
-        transform_editor.typed_state.data.scale.z.control_variant = "stacked"
-        transform_editor.typed_state.data.translation.x.on_focus_lost_ctrl_callback_name = "on_focus_lost"
+        transform_editor.set_components_visibilities(
+            {
+                transform_editor.scale_name.x: False,
+                transform_editor.scale_name.y: False,
+            }
+        )
 
-        @web_app.ctrl.set("on_focus_lost")
+        transform_editor.set_components_controls_variants(
+            {
+                transform_editor.scale_name.z: "stacked",
+            }
+        )
+
         def on_focus_lost():
             # Example of how to apply a translation when focus is lost on translation's x value
+            print("on_focus_lost")
             transform_editor.apply_translation()
             simple.ResetCamera()
             web_app.ctrl.view_update()
 
+        transform_editor.bind_components_on_focus_lost(
+            {
+                transform_editor.translation_name.x: on_focus_lost,
+            }
+        )
 
-@web_app.ctrl.set("on_apply_clicked")
-def apply_clicked():
-    print("Apply button clicked")
+        def apply_clicked():
+            print("Apply button clicked")
 
-
-@web_app.state.change(transform_editor.typed_state.name.scale.z.value)
-def z_scale_changed(**kwargs):
-    print("Z Scale changed")
+        transform_editor.bind_on_apply_button_clicked(apply_clicked)
 
 
 web_app.start()

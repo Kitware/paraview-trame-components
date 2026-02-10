@@ -1,6 +1,6 @@
 [project]
 name = "paraview-trame-components"
-version = "0.16.0"
+version = "0.17.0"
 requires-python = ">= 3.10"
 dependencies = [
     "pyyaml",

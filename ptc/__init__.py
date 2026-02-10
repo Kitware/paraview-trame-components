@@ -24,4 +24,4 @@ try:
 except ImportError:
     print("MultiView is not available without installing trame-dockview.")
 
-__version__ = "0.16.0"
+__version__ = "0.17.0"

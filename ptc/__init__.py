@@ -9,7 +9,7 @@ from .pipeline import PipelineBrowser  # noqa: F401
 from .representation import RepresentBy  # noqa: F401
 from .reset_camera_button import ResetCameraButtons  # noqa: F401
 from .utils import PARAVIEW_EXAMPLES, PARAVIEW_ROOT  # noqa: F401
-from .vcr import TimeControl  # noqa: F401
+from .time_control import TimeControl  # noqa: F401
 from .views.table import ViewTable  # noqa: F401
 from .vuetify import *  # noqa: F403
 from trame.widgets.html import *  # noqa: F403

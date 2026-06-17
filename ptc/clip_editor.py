@@ -4,15 +4,23 @@ from paraview import simple
 from .plane_widget_editor import PlaneWidgetEditor
 
 
-class SliceEditor(PlaneWidgetEditor):
+class ClipEditor(PlaneWidgetEditor):
     def __init__(self):
-        super().__init__(simple.Slice(), "Slice editor", "slice_editor")
+        super().__init__(simple.Clip(), "Clip editor", "clip_editor")
+
+    def _show(self, *args, **kwargs):
+        if self.source is not None:
+            if self.state[self.show_key]:
+                simple.Hide(self.source)
+            else:
+                simple.Show(self.source)
+        super()._show(*args, **kwargs)
 
     def _on_origin_change(self, *_args, **_kwargs):
         origin = self.origin_editor.value
         if any(not isinstance(v, float) for v in origin):
             return
-        self.pv_filter.SliceType.Origin = origin
+        self.pv_filter.ClipType.Origin = origin
 
         self.plane.SetOrigin(origin)
         self.ctrl.view_update()
@@ -25,7 +33,7 @@ class SliceEditor(PlaneWidgetEditor):
         ):
             return
 
-        self.pv_filter.SliceType.Normal = normal
+        self.pv_filter.ClipType.Normal = normal
 
         self.plane.SetNormal(normal)
         self.ctrl.view_update()

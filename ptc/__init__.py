@@ -18,6 +18,7 @@ from .proxy_editor import ProxyEditor  # noqa: F401
 from .toolbar import VerticalToolbar  # noqa: F401
 from .filters import AddFilterDialog  # noqa: F401
 from .transform_editor import TransformEditor  # noqa: F401
+from .threshold_editor import ThresholdEditor  # noqa: F401
 
 try:
     from .dockable_views import MultiView  # noqa: F401
